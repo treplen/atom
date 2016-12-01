@@ -84,8 +84,7 @@ public class LeaderboardImpl extends Leaderboard implements Tickable {
         for (Map.Entry<Player, Session> connection : clientConnections.getConnections()) {
             int score=0;
             Player player=connection.getKey();
-            for(Cell cell:player.getCells())
-            {
+            for(Cell cell:player.getCells()) {
                 score+=cell.getMass();
             }
             players.add(new Pair<>(player.getName(),score));

@@ -6,6 +6,7 @@ import utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author apomosov
@@ -16,7 +17,7 @@ public class GameSessionImpl implements GameSession {
   @NotNull
   private final Field field;
   @NotNull
-  private final List<Player> players = new ArrayList<>();
+  private final List<Player> players = new CopyOnWriteArrayList<>();
   @NotNull
   private final FoodGenerator foodGenerator;
   @NotNull

@@ -24,7 +24,7 @@ public interface Replicator {
   void replicate();
 
   default void sendLeaderboard() {
-    /*
+
     String leaderboard = new String();
         try (InputStream in = new FileInputStream(new File(Configurations.getStringProperty("leaderboard")));
              BufferedReader reader = new BufferedReader(new InputStreamReader(in))
@@ -43,7 +43,7 @@ public interface Replicator {
           }
         }
       }
-    }*/
+    }
   }
 
 }

@@ -7,6 +7,7 @@ import utils.SequentialIDGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author apomosov
@@ -17,7 +18,7 @@ public class Player {
   @NotNull
   private String name;
   @NotNull
-  private final List<PlayerCell> cells = new ArrayList<>();
+  private final List<PlayerCell> cells = new CopyOnWriteArrayList<>();
 
   private double lastUpdate;
 
