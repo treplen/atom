@@ -64,12 +64,12 @@ public class LeaderboardImpl extends Leaderboard implements Tickable {
             e.printStackTrace();
         }
 
-        log.info("Start leaderboard replication");
+        //log.info("Start leaderboard replication");
         @org.jetbrains.annotations.NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
         Message message = new SendLeaderboardMsg(this.getAddress());
         messageSystem.sendMessage(message);
 
-        log.info("Start leaderboard update");
+        //log.info("Start leaderboard update");
         message = new UpdateLeaderboardMsg(this.getAddress());
         messageSystem.sendMessage(message);
 
@@ -78,7 +78,7 @@ public class LeaderboardImpl extends Leaderboard implements Tickable {
 
     @Override
     public void update() {
-        log.info("Updating leaderboard");
+        //log.info("Updating leaderboard");
         ClientConnections clientConnections = ApplicationContext.instance().get(ClientConnections.class);
         List<Pair<String,Integer>> players = new LinkedList<>();
         for (Map.Entry<Player, Session> connection : clientConnections.getConnections()) {

@@ -27,12 +27,15 @@ import java.util.stream.Stream;
   @Override
   public void replicate() {
     for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
+
       int numberOfFoodsInSession =0;
       numberOfFoodsInSession += gameSession.getField().getFoods().size();
       Food[] food = new Food[numberOfFoodsInSession];
+
       int i = 0;
       for (model.Food foods : gameSession.getField().getFoods())  {
         food[i] = new Food(foods.getX(),foods.getY());
+        i++;
       }
       int numberOfCellsInSession = 0;
 
