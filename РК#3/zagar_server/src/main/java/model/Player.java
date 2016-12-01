@@ -19,9 +19,12 @@ public class Player {
   @NotNull
   private final List<PlayerCell> cells = new ArrayList<>();
 
+  private double lastUpdate;
+
   public Player(int id, @NotNull String name) {
     this.id = id;
     this.name = name;
+    lastUpdate = System.currentTimeMillis();
     addCell(new PlayerCell(Cell.idGenerator.next(), 0, 0));
   }
 
@@ -49,6 +52,34 @@ public class Player {
 
   public int getId() {
     return id;
+  }
+
+  public void move(double x, double y){
+    double dTime =  System.currentTimeMillis() - lastUpdate;
+    for (PlayerCell playerCell:cells){
+
+      double dx = x-playerCell.getX();
+      double dy = y-playerCell.getY();
+      double r = Math.sqrt(dx*dx + dy*dy);
+      dx = dx/r;
+      dy = dy/r;
+      int newX = (int)(playerCell.getX() + dTime*(dx)/playerCell.getMass()*10);
+      int newY = (int)(playerCell.getY() + dTime*(dy)/playerCell.getMass()*10);
+
+      if (newX < 0 )
+        newX = 0;
+      if (newX > GameConstants.FIELD_WIDTH)
+        newX = GameConstants.FIELD_WIDTH;
+
+      if (newY < 0 )
+        newY = 0;
+      if (newY > GameConstants.FIELD_HEIGHT)
+        newY = GameConstants.FIELD_HEIGHT;
+
+      playerCell.setX(newX);
+      playerCell.setY(newY);
+    }
+    lastUpdate = System.currentTimeMillis();
   }
 
   @NotNull

@@ -29,14 +29,14 @@ public class Mechanics extends Service implements Tickable {
   @Override
   public void run() {
     log.info(getAddress() + " started");
-    Ticker ticker = new Ticker(this, 1);
+    Ticker ticker = new Ticker(this, 25);
     ticker.loop();
   }
 
   @Override
   public void tick(long elapsedNanos) {
     try {
-      Thread.sleep(1500);
+      Thread.sleep(40);
     } catch (InterruptedException e) {
       log.error(e);
       Thread.currentThread().interrupt();
@@ -59,6 +59,7 @@ public class Mechanics extends Service implements Tickable {
 
   public void Move (@NotNull Player player, @NotNull CommandMove commandMove)
   {
+    player.move(commandMove.getDx(),commandMove.getDy());
     //log.info("{} wants to move <{},{}> (in thread {})",player,commandMove.getDx(),commandMove.getDy(),Thread.currentThread());
   }
 
