@@ -2,6 +2,7 @@ package zagar.view;
 
 import org.jetbrains.annotations.NotNull;
 import zagar.Game;
+import zagar.GameConstants;
 import zagar.Main;
 
 import java.awt.*;
@@ -13,7 +14,7 @@ import java.awt.image.BufferedImage;
 public class Food {
     private int x,y;
     private int id;
-    private static float size = 50;
+    private static float size = GameConstants.FoodSize;
     private int r, g, b;
 
 

@@ -84,6 +84,14 @@ public class GameCanvas extends JPanel {
     }
     g.setFont(fontCells);
 
+    for (int i3=0; i3<Game.food.length; i3++){
+      Food food = Game.food[i3];
+      if (food != null){
+        food.render(g,1);
+      }
+    }
+
+
     for (int i2 = 0; i2 < Game.cells.length; i2++) {
       Cell cell = Game.cells[i2];
       if (cell != null) {
@@ -91,12 +99,6 @@ public class GameCanvas extends JPanel {
         if (cell.mass > 9) {
           cell.render(g, Math.max(1 - 1f / (cell.mass / 10f), 0.87f));
         }
-      }
-    }
-    for (int i3=0; i3<Game.food.length; i3++){
-      Food food = Game.food[i3];
-      if (food != null){
-        food.render(g,1);
       }
     }
 

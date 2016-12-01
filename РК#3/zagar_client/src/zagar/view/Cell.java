@@ -42,7 +42,7 @@ public class Cell {
     this.yRender -= (this.yRender - y) / 5f;
     this.sizeRender -= (this.sizeRender - size) / 9f;
     this.mass = Math.round((this.sizeRender * this.sizeRender) / 100);
-    this.rotation += (1f / (Math.max(this.mass, 20) * 2));
+    //this.rotation += (1f / (Math.max(this.mass, 20) * 2));
 
     if (Game.cellNames.containsKey(this.id)) {
       this.name = Game.cellNames.get(this.id);
