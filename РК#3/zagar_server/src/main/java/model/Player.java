@@ -2,6 +2,7 @@ package model;
 
 import main.ApplicationContext;
 import org.jetbrains.annotations.NotNull;
+import utils.EatComparator;
 import utils.IDGenerator;
 import utils.SequentialIDGenerator;
 
@@ -19,7 +20,8 @@ public class Player {
   private String name;
   @NotNull
   private final List<PlayerCell> cells = new CopyOnWriteArrayList<>();
-
+  @NotNull
+  EatComparator eatComparator = new EatComparator();
   private double lastUpdate;
 
   public Player(int id, @NotNull String name) {
@@ -64,8 +66,8 @@ public class Player {
       double r = Math.sqrt(dx*dx + dy*dy);
       dx = dx/r;
       dy = dy/r;
-      int newX = (int)(playerCell.getX() + dTime*(dx)/playerCell.getMass()*10);
-      int newY = (int)(playerCell.getY() + dTime*(dy)/playerCell.getMass()*10);
+      int newX = (int)(playerCell.getX() + (0.2*dTime*dx+dTime*(dx)/playerCell.getMass()));
+      int newY = (int)(playerCell.getY() + (0.2*dTime*dy+dTime*(dy)/playerCell.getMass()));
 
       if (newX < 0 )
         newX = 0;
@@ -81,6 +83,26 @@ public class Player {
       playerCell.setY(newY);
     }
     lastUpdate = System.currentTimeMillis();
+  }
+
+  public boolean eate(Cell food){
+    for(PlayerCell playerCell: cells) {
+      double dx = playerCell.getX() - food.getX();
+      double dy = playerCell.getY() - food.getY();
+
+      if ((Math.sqrt(dx*dx+dy*dy) < (playerCell.getMass() + food.getMass()))&&
+              eatComparator.compare(playerCell,food)==1
+              ) {
+        if(food.getClass() != Virus.class){
+          playerCell.setMass(playerCell.getMass()+food.getMass());
+          return true;
+        }else {
+          //Eject
+          return true;
+        }
+      }
+    }
+   return false;
   }
 
   @NotNull

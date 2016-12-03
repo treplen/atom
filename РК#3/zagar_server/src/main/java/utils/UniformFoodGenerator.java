@@ -51,7 +51,7 @@ public class UniformFoodGenerator  implements FoodGenerator {
               random.nextInt(field.getHeight() - 2)
       );
       field.addFood(food);
-      log.info("UniformFoodGenerator ticked, field size now {}", field.getFoods().size());
+//      log.info("UniformFoodGenerator ticked, field size now {}", field.getFoods().size());
       //int toGenerate = (int) Math.ceil(foodPerSecond * elapsedNanos / 1_000_000_000.);
     }
   }
