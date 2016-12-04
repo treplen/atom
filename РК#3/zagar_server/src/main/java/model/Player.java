@@ -66,8 +66,8 @@ public class Player {
       double r = Math.sqrt(dx*dx + dy*dy);
       dx = dx/r;
       dy = dy/r;
-      int newX = (int)(playerCell.getX() + (0.2*dTime*dx+dTime*(dx)/playerCell.getMass()));
-      int newY = (int)(playerCell.getY() + (0.2*dTime*dy+dTime*(dy)/playerCell.getMass()));
+      int newX = (int)(playerCell.getX() + (0.5*dTime*dx+dTime*(dx)/playerCell.getMass()));
+      int newY = (int)(playerCell.getY() + (0.5*dTime*dy+dTime*(dy)/playerCell.getMass()));
 
       if (newX < 0 )
         newX = 0;
