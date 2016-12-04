@@ -265,7 +265,8 @@ public class Game {
         (new PacketMove(x, y)).write();
 
         if (rapidEject) {
-          new PacketEjectMass().write();
+          new PacketEjectMass(x,y).write();
+          rapidEject = false;
         }
       }
     }

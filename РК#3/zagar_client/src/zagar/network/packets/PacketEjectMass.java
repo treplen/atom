@@ -1,6 +1,7 @@
 package zagar.network.packets;
 
 import java.io.IOException;
+import java.rmi.activation.ActivationGroupDesc;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,12 +13,16 @@ import zagar.Game;
 public class PacketEjectMass {
   @NotNull
   private static final Logger log = LogManager.getLogger(">>>");
+  private final float dx;
+  private final float dy;
 
-  public PacketEjectMass() {
+  public PacketEjectMass(float dx, float dy) {
+    this.dx = dx;
+    this.dy = dy;
   }
 
   public void write() throws IOException {
-    String msg = JSONHelper.toJSON(new CommandEjectMass());
+    String msg = JSONHelper.toJSON(new CommandEjectMass(dx,dy));
     log.info("Sending [" + msg + "]");
     Game.socket.session.getRemote().sendString(msg);
   }

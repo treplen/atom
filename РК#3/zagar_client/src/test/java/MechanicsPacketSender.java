@@ -45,9 +45,9 @@ public class MechanicsPacketSender {
         thread.start();
         while(Game.socket==null || Game.socket.session==null || !Game.socket.session.isOpen()) {}
         //Thread.sleep(3000);
-        new PacketEjectMass().write();
+        //new PacketEjectMass().write();
         new PacketSplit().write();
-        new PacketMove(1,1).write();
+        //new PacketMove(1,1).write();
         //Thread.sleep(3000);
         thread.interrupt();
     }

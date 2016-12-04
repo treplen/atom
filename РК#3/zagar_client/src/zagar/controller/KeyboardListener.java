@@ -19,7 +19,8 @@ public class KeyboardListener implements KeyListener {
             new PacketSplit().write();
           }
           if (e.getKeyCode() == KeyEvent.VK_W) {
-            new PacketEjectMass().write();
+            //new PacketEjectMass().write();
+            Game.rapidEject = true;
           }
           if (e.getKeyCode() == KeyEvent.VK_T) {
             Game.rapidEject = true;
