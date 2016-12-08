@@ -95,7 +95,6 @@ public class Player {
       int newX = (int)(playerCell.getX() + dTime*playerCell.getVelocity().getX());
       int newY = (int)(playerCell.getY() + dTime*playerCell.getVelocity().getY());
 
-
         if (newX < 0){
           newX = 0;
         }
