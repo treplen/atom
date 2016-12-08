@@ -135,7 +135,7 @@ public class Player {
 
   public void eject(double x, double y){
     for (PlayerCell playerCell:cells) {
-        if(playerCell.getMass()>=GameConstants.MIN_MASS_FOR_EJECT){
+        if(playerCell.getMass() >= GameConstants.MIN_MASS_FOR_EJECT){
           lastEject = System.currentTimeMillis();
           playerCell.setMass(playerCell.getMass()/2);
           PlayerCell newPlayerCell = new PlayerCell(Cell.idGenerator.next(),playerCell.getX(),playerCell.getY());
@@ -167,9 +167,8 @@ public class Player {
     }
 
     if( lastEject != -1 &&
-            System.currentTimeMillis() - lastEject > GameConstants.MAX_DISCONNECTING_TIME - GameConstants.JOINING_TIME){
+            System.currentTimeMillis() - lastEject > GameConstants.MAX_DISCONNECTING_TIME - GameConstants.JOINING_TIME)
       joining = true;
-    }
   }
 
   private DoubleVector findCentre(){
