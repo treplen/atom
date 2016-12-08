@@ -75,7 +75,7 @@ public class Mechanics extends Service implements Tickable {
           gameSession.getField().addSplitFood(splitFood);
         player.getSplitFoods().clear();
       }
-      System.out.println(gameSession.getField().getSplitFoods().size());
+
       for(SplitFood splitFood:gameSession.getField().getSplitFoods()){
 
         if(splitFood.update()){

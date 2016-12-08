@@ -190,7 +190,7 @@ public class Player {
         continue;
 
       playerCell.setMass(playerCell.getMass() - GameConstants.FOOD_MASS);
-      DoubleVector dv = new DoubleVector(x,y);
+      DoubleVector dv = new DoubleVector(x - playerCell.getX(),y - playerCell.getY());
       dv.normalize().multi(playerCell.getMass());
       SplitFood splitFood = new SplitFood((int)(playerCell.getX() + dv.getX())  , (int)(playerCell.getY() + dv.getY() ));
 

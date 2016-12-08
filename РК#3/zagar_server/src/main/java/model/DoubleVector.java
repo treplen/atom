@@ -65,5 +65,9 @@ public class DoubleVector {
     public double length(){
         return Math.sqrt(x*x+y*y);
     }
+
+    public static DoubleVector zero(){
+        return  new DoubleVector(0,0);
+    }
 }
 

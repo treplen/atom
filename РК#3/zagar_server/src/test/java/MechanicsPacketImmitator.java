@@ -41,8 +41,8 @@ public class MechanicsPacketImmitator {
         Thread.sleep(3000);
         while(!masterServer.isReady()){}
         @NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
-        Message message = new EjectMassMsg(messageSystem.getService(ClientConnectionServer.class).getAddress(),new CommandEjectMass(),new Player(0,"Test player"));
-        messageSystem.sendMessage(message);
+        ///Message message = new EjectMassMsg(messageSystem.getService(ClientConnectionServer.class).getAddress(),new CommandEjectMass(),new Player(0,"Test player"));
+        //messageSystem.sendMessage(message);
         Thread.sleep(3000);
         thread.interrupt();
     }
@@ -63,10 +63,7 @@ public class MechanicsPacketImmitator {
         thread.start();
         while(!masterServer.isReady()){}
         Thread.sleep(3000);
-        @NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
-        Message message = new SplitMsg(messageSystem.getService(ClientConnectionServer.class).getAddress(),new CommandSplit(),new Player(0,"Test player"));
-        messageSystem.sendMessage(message);
-        Thread.sleep(3000);
+
         thread.interrupt();
     }
 
@@ -86,10 +83,7 @@ public class MechanicsPacketImmitator {
         thread.start();
         while(!masterServer.isReady()){}
         Thread.sleep(3000);
-        @NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
-        Message message = new MoveMsg(messageSystem.getService(ClientConnectionServer.class).getAddress(),new CommandMove(1,1),new Player(0,"Test player"));
-        messageSystem.sendMessage(message);
-        Thread.sleep(3000);
+
         thread.interrupt();
     }
 
@@ -109,16 +103,7 @@ public class MechanicsPacketImmitator {
         thread.start();
         while(!masterServer.isReady()){}
         Thread.sleep(3000);
-        @NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
-        Message message = new MoveMsg(messageSystem.getService(ClientConnectionServer.class).getAddress(),new CommandMove(1,1),new Player(0,"Test player"));
-        messageSystem.sendMessage(message);
-        Thread.sleep(3000);
-        message = new SplitMsg(messageSystem.getService(ClientConnectionServer.class).getAddress(),new CommandSplit(),new Player(0,"Test player"));
-        messageSystem.sendMessage(message);
-        Thread.sleep(3000);
-        message = new EjectMassMsg(messageSystem.getService(ClientConnectionServer.class).getAddress(),new CommandEjectMass(),new Player(0,"Test player"));
-        messageSystem.sendMessage(message);
-        Thread.sleep(3000);
+
         thread.interrupt();
     }
 
