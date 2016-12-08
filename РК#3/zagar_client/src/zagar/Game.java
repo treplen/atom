@@ -265,14 +265,13 @@ public class Game {
         (new PacketMove(x, y)).write();
 
         if (rapidEject) {
-          new PacketEjectMass(x,y).write();
+          (new PacketEjectMass(x,y)).write();
           rapidEject = false;
         }
 
         if (rapidSplit) {
-          new PacketSplit(x,y).write();
+          (new PacketSplit(x,y)).write();
           rapidSplit = false;
-
         }
       }
     }
