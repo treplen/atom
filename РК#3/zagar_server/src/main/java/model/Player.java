@@ -24,11 +24,13 @@ public class Player {
   @NotNull
   EatComparator eatComparator = new EatComparator();
   private double lastUpdate;
+  private double lastEject;
 
 
   public Player(int id, @NotNull String name) {
     this.id = id;
     this.name = name;
+    lastEject = -1;
     lastUpdate = System.currentTimeMillis();
     addCell(new PlayerCell(Cell.idGenerator.next(), 0, 0));
   }
@@ -59,34 +61,11 @@ public class Player {
     return id;
   }
 
-  public void updateVelocity(double x, double y){
-    for (PlayerCell playerCell:cells) {
-      double dx = x-playerCell.getX();
-      double dy = y-playerCell.getY();
-      double r = Math.sqrt(dx*dx + dy*dy);
-
-      dx = dx / r;
-      dy = dy / r;
-
-      if(r < playerCell.getMass()){
-        dx*=r/playerCell.getMass();
-        dy*=r/playerCell.getMass();
-      }
-
-      playerCell.setVelocity(
-              new DoubleVector(
-                      dx * (0.5 + 1/playerCell.getMass()),
-                      dy * (0.5 + 1/playerCell.getMass()))
-      );
-
-    }
-  }
-
   public void move(double x, double y){
-    updateVelocity(x,y);
+    checkEject();
     double dTime =  System.currentTimeMillis() - lastUpdate;
     for (PlayerCell playerCell:cells){
-
+      playerCell.updateVelocity(x,y);
       int newX = (int)(playerCell.getX() + dTime*playerCell.getVelocity().getX());
       int newY = (int)(playerCell.getY() + dTime*playerCell.getVelocity().getY());
 
@@ -124,6 +103,39 @@ public class Player {
       }
     }
    return false;
+  }
+
+  public void eject(double x, double y){
+    for (PlayerCell playerCell:cells) {
+        if(playerCell.getMass()>=GameConstants.MIN_MASS_FOR_EJECT){
+          lastEject = System.currentTimeMillis();
+          playerCell.setMass(playerCell.getMass()/2);
+          PlayerCell newPlayerCell = new PlayerCell(Cell.idGenerator.next(),playerCell.getX(),playerCell.getY());
+          newPlayerCell.updateVelocity(x,y);
+          newPlayerCell.setMass(playerCell.getMass());
+
+          newPlayerCell.setVelocity(new DoubleVector(
+                  newPlayerCell.getVelocity().getX()*4,
+                          newPlayerCell.getVelocity().getX()*4
+          )
+          );
+
+          newPlayerCell.setUngovernable(true);
+          addCell(newPlayerCell);
+        }
+    }
+  }
+
+  public void checkEject(){
+    if( lastEject != -1 && System.currentTimeMillis() - lastEject >GameConstants.MAX_DISCONNECTING_TIME ){
+      PlayerCell mainCell = cells.get(0);
+      for(int i = 1;i<cells.size();i++){
+        mainCell.setMass(mainCell.getMass() + cells.get(i).getMass());
+      }
+      cells.clear();
+      cells.add(mainCell);
+      lastEject = -1;
+    }
   }
 
   @NotNull
