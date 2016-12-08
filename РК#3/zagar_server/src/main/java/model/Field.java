@@ -20,6 +20,9 @@ public class Field {
 
   @NotNull
   private final CopyOnWriteArraySet<Food> foods = new CopyOnWriteArraySet<>();
+  @NotNull
+  private final CopyOnWriteArraySet<SplitFood> splitFoods = new CopyOnWriteArraySet<>();
+
 
   public Field() {
     this.width = GameConstants.FIELD_WIDTH;
@@ -36,9 +39,18 @@ public class Field {
     return foods;
   }
 
+  @NotNull
+  public CopyOnWriteArraySet<SplitFood> getSplitFoods() {
+    return splitFoods;
+  }
+
   public void addFood(Food food){
     foods.add(food);
   }
+  public void addSplitFood(SplitFood food){
+    splitFoods.add(food);
+  }
+
   public int getWidth() {
     return width;
   }

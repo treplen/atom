@@ -6,10 +6,7 @@ import matchmaker.MatchMaker;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
 import messageSystem.messages.ReplicateMsg;
-import model.GameSession;
-import model.Player;
-import model.PlayerCell;
-import model.Virus;
+import model.*;
 import network.ClientConnections;
 import network.packets.PacketReplicate;
 import org.apache.logging.log4j.LogManager;
@@ -60,14 +57,34 @@ public class Mechanics extends Service implements Tickable {
     }
 
     eateAll();
-
- //   log.info("Start replication");
+    splitAll();
+    //   log.info("Start replication");
     @NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
     Message message = new ReplicateMsg(this.getAddress());
     messageSystem.sendMessage(message);
 
     //execute all messages from queue
     messageSystem.execForService(this);
+  }
+
+  private void splitAll() {
+    for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
+
+      for (Player player : gameSession.getPlayers()) {
+        for (SplitFood splitFood : player.getSplitFoods())
+          gameSession.getField().addSplitFood(splitFood);
+        player.getSplitFoods().clear();
+      }
+      System.out.println(gameSession.getField().getSplitFoods().size());
+      for(SplitFood splitFood:gameSession.getField().getSplitFoods()){
+
+        if(splitFood.update()){
+          gameSession.getField().addFood(new model.Food(splitFood.getX(),splitFood.getY()));
+          gameSession.getField().getSplitFoods().remove(splitFood);
+        }
+      }
+
+    }
   }
 
   private void eateAll() {
@@ -116,7 +133,7 @@ public class Mechanics extends Service implements Tickable {
 
   public void Split (@NotNull Player player, @NotNull CommandSplit commandSplit)
   {
-
+    player.split(commandSplit.getDx(),commandSplit.getDy());
     //log.info("{} wants to split (in thread {})",player,Thread.currentThread());
   }
 }

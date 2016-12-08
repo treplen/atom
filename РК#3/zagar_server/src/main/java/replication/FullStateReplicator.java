@@ -30,6 +30,7 @@ import java.util.stream.Stream;
 
       int numberOfFoodsInSession =0;
       numberOfFoodsInSession += gameSession.getField().getFoods().size();
+      numberOfFoodsInSession += gameSession.getField().getSplitFoods().size();
       Food[] food = new Food[numberOfFoodsInSession];
 
       int i = 0;
@@ -37,6 +38,12 @@ import java.util.stream.Stream;
         food[i] = new Food(foods.getX(),foods.getY());
         i++;
       }
+
+      for (model.SplitFood foods : gameSession.getField().getSplitFoods())  {
+        food[i] = new Food(foods.getX(),foods.getY());
+        i++;
+      }
+
       int numberOfCellsInSession = 0;
 
       numberOfCellsInSession+=gameSession.getField().getViruses().size();

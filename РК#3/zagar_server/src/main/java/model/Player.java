@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * @author apomosov
@@ -23,6 +24,9 @@ public class Player {
   private final List<PlayerCell> cells = new CopyOnWriteArrayList<>();
   @NotNull
   EatComparator eatComparator = new EatComparator();
+  @NotNull
+  private final CopyOnWriteArraySet<SplitFood> splitFoods = new CopyOnWriteArraySet<>();
+
   private double lastUpdate;
   private double lastEject;
   private boolean joining;
@@ -178,6 +182,32 @@ public class Player {
     }
     doubleVector.multi((double)1/(double)cells.size());
     return  doubleVector;
+  }
+
+  public void split(double x, double y){
+    for (PlayerCell playerCell:cells) {
+      if (playerCell.getMass() < GameConstants.MIN_MASS_TO_SPLIT)
+        continue;
+
+      playerCell.setMass(playerCell.getMass() - GameConstants.FOOD_MASS);
+      DoubleVector dv = new DoubleVector(x,y);
+      dv.normalize().multi(playerCell.getMass());
+      SplitFood splitFood = new SplitFood((int)(playerCell.getX() + dv.getX())  , (int)(playerCell.getY() + dv.getY() ));
+
+      if(splitFood.getX() < 0)
+        splitFood.setX(0);
+      if(splitFood.getY() < 0)
+        splitFood.setY(0);
+      //dv.normalize().multi(GameConstants.SPLIT_VELOCITY);
+      //splitFood.setVelocity(dv);
+      splitFoods.add(splitFood);
+      System.out.println(splitFoods.size());
+    }
+  }
+
+  @NotNull
+  public CopyOnWriteArraySet<SplitFood> getSplitFoods() {
+    return splitFoods;
   }
 
   @NotNull
