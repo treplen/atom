@@ -8,6 +8,7 @@ import utils.SequentialIDGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -23,6 +24,7 @@ public class Player {
   @NotNull
   EatComparator eatComparator = new EatComparator();
   private double lastUpdate;
+
 
   public Player(int id, @NotNull String name) {
     this.id = id;
@@ -57,17 +59,36 @@ public class Player {
     return id;
   }
 
-  public void move(double x, double y){
-    double dTime =  System.currentTimeMillis() - lastUpdate;
-    for (PlayerCell playerCell:cells){
-
+  public void updateVelocity(double x, double y){
+    for (PlayerCell playerCell:cells) {
       double dx = x-playerCell.getX();
       double dy = y-playerCell.getY();
       double r = Math.sqrt(dx*dx + dy*dy);
-      dx = dx/r;
-      dy = dy/r;
-      int newX = (int)(playerCell.getX() + (0.5*dTime*dx+dTime*(dx)/playerCell.getMass()));
-      int newY = (int)(playerCell.getY() + (0.5*dTime*dy+dTime*(dy)/playerCell.getMass()));
+
+      dx = dx / r;
+      dy = dy / r;
+
+      if(r < playerCell.getMass()){
+        dx*=r/playerCell.getMass();
+        dy*=r/playerCell.getMass();
+      }
+
+      playerCell.setVelocity(
+              new DoubleVector(
+                      dx * (0.5 + 1/playerCell.getMass()),
+                      dy * (0.5 + 1/playerCell.getMass()))
+      );
+
+    }
+  }
+
+  public void move(double x, double y){
+    updateVelocity(x,y);
+    double dTime =  System.currentTimeMillis() - lastUpdate;
+    for (PlayerCell playerCell:cells){
+
+      int newX = (int)(playerCell.getX() + dTime*playerCell.getVelocity().getX());
+      int newY = (int)(playerCell.getY() + dTime*playerCell.getVelocity().getY());
 
       if (newX < 0 )
         newX = 0;
