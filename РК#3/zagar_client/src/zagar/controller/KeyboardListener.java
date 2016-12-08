@@ -12,11 +12,10 @@ import zagar.Game;
 public class KeyboardListener implements KeyListener {
   @Override
   public void keyPressed(@NotNull KeyEvent e) {
-    try {
       if (Game.socket != null && Game.socket.session != null) {
         if (Game.socket.session.isOpen()) {
           if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            new PacketSplit().write();
+            Game.rapidSplit = true;
           }
           if (e.getKeyCode() == KeyEvent.VK_W) {
             //new PacketEjectMass().write();
@@ -32,9 +31,6 @@ public class KeyboardListener implements KeyListener {
           }
         }
       }
-    } catch (IOException ioEx) {
-      ioEx.printStackTrace();
-    }
   }
 
   @Override

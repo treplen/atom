@@ -116,6 +116,7 @@ public class Mechanics extends Service implements Tickable {
 
   public void Split (@NotNull Player player, @NotNull CommandSplit commandSplit)
   {
+
     //log.info("{} wants to split (in thread {})",player,Thread.currentThread());
   }
 }
