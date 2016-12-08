@@ -52,6 +52,11 @@ public class DoubleVector {
 
     public DoubleVector normalize(){
         double r = Math.sqrt(x*x+y*y);
+        if (r == 0){
+            x = 0;
+            y = 0;
+            return this;
+        }
         x = x/r;
         y = y/r;
         return  this;

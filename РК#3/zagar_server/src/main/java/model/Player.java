@@ -26,7 +26,6 @@ public class Player {
   private double lastUpdate;
   private double lastEject;
   private boolean joining;
-  private double timeToJoining;
 
 
   public Player(int id, @NotNull String name) {
@@ -171,8 +170,6 @@ public class Player {
     if( lastEject != -1 &&
             System.currentTimeMillis() - lastEject > GameConstants.MAX_DISCONNECTING_TIME - GameConstants.JOINING_TIME){
       joining = true;
-      timeToJoining = GameConstants.JOINING_TIME - System.currentTimeMillis() -
-              lastEject - GameConstants.MAX_DISCONNECTING_TIME - GameConstants.JOINING_TIME;
     }
   }
 
@@ -181,8 +178,7 @@ public class Player {
       for (PlayerCell playerCell:cells){
         doubleVector.add(new DoubleVector(playerCell.getX(),playerCell.getY()));
     }
-    double d = (double)1/(double)cells.size();
-    doubleVector.multi(d);
+    doubleVector.multi((double)1/(double)cells.size());
     return  doubleVector;
   }
 
