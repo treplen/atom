@@ -7,7 +7,7 @@ public interface GameConstants {
   int MAX_PLAYERS_IN_SESSION = 10;
   int FIELD_WIDTH = 1000;
   int FIELD_HEIGHT = 1000;
-  int FOOD_MASS = 3;
+  int FOOD_MASS = 10;
   int DEFAULT_PLAYER_CELL_MASS = 40;
   int VIRUS_MASS = 100;
   int FOOD_PER_SECOND_GENERATION = 1;
@@ -16,4 +16,5 @@ public interface GameConstants {
   int MIN_MASS_FOR_EJECT = 80;
   int UNGOVERABLE_TIME = 500;
   int MAX_DISCONNECTING_TIME = 4_000;
+  int JOINING_TIME = 1_000;
 }

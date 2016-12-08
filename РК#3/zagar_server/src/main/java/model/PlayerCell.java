@@ -52,4 +52,16 @@ public class PlayerCell extends Cell {
     );
   }
 
+  public boolean pushOff(PlayerCell playerCell){
+    double r = Math.sqrt(
+            (getX() - playerCell.getX())*(getX() - playerCell.getX())+
+                    (getY() - playerCell.getY())*(getY() - playerCell.getY())
+            );
+
+    if (r <  getMass() + playerCell.getMass() && !playerCell.getUngovernable())
+      return true;
+    else
+      return false;
+
+  }
 }

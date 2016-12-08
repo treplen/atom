@@ -25,12 +25,15 @@ public class Player {
   EatComparator eatComparator = new EatComparator();
   private double lastUpdate;
   private double lastEject;
+  private boolean joining;
+  private double timeToJoining;
 
 
   public Player(int id, @NotNull String name) {
     this.id = id;
     this.name = name;
     lastEject = -1;
+    joining = false;
     lastUpdate = System.currentTimeMillis();
     addCell(new PlayerCell(Cell.idGenerator.next(), 0, 0));
   }
@@ -63,25 +66,52 @@ public class Player {
 
   public void move(double x, double y){
     checkEject();
+    DoubleVector centre = null;
+    if(joining)
+      centre = findCentre();
     double dTime =  System.currentTimeMillis() - lastUpdate;
-    for (PlayerCell playerCell:cells){
-      playerCell.updateVelocity(x,y);
+
+    for (PlayerCell playerCell:cells) {
+      playerCell.updateVelocity(x, y);
+
+      if (!playerCell.getUngovernable() && !joining)
+        for (PlayerCell playerCell1 : cells) {
+          if (!playerCell.equals(playerCell1) && playerCell.pushOff(playerCell1)) {
+            DoubleVector doubleVector = new DoubleVector(
+                    playerCell.getX() - playerCell1.getX(),
+                    playerCell.getY() - playerCell1.getY()
+            );
+
+            playerCell.getVelocity().add(doubleVector.normalize().multi(playerCell.getVelocity().length() * 1.5));
+          }
+        }
+
+        if(joining){
+          DoubleVector dCentre = new DoubleVector(centre);
+          dCentre.sub(new DoubleVector(playerCell.getX(),playerCell.getY()));
+          dCentre.multi(1 /GameConstants.JOINING_TIME);
+          playerCell.getVelocity().add(dCentre);
+        }
+
       int newX = (int)(playerCell.getX() + dTime*playerCell.getVelocity().getX());
       int newY = (int)(playerCell.getY() + dTime*playerCell.getVelocity().getY());
 
-      if (newX < 0 )
-        newX = 0;
-      if (newX > GameConstants.FIELD_WIDTH)
-        newX = GameConstants.FIELD_WIDTH;
 
-      if (newY < 0 )
-        newY = 0;
-      if (newY > GameConstants.FIELD_HEIGHT)
-        newY = GameConstants.FIELD_HEIGHT;
+        if (newX < 0){
+          newX = 0;
+        }
+        if (newX > GameConstants.FIELD_WIDTH)
+          newX = GameConstants.FIELD_WIDTH;
 
-      playerCell.setX(newX);
-      playerCell.setY(newY);
-    }
+        if (newY < 0)
+          newY = 0;
+        if (newY > GameConstants.FIELD_HEIGHT)
+          newY = GameConstants.FIELD_HEIGHT;
+
+        playerCell.setX(newX);
+        playerCell.setY(newY);
+      }
+
     lastUpdate = System.currentTimeMillis();
   }
 
@@ -135,7 +165,25 @@ public class Player {
       cells.clear();
       cells.add(mainCell);
       lastEject = -1;
+      joining = false;
     }
+
+    if( lastEject != -1 &&
+            System.currentTimeMillis() - lastEject > GameConstants.MAX_DISCONNECTING_TIME - GameConstants.JOINING_TIME){
+      joining = true;
+      timeToJoining = GameConstants.JOINING_TIME - System.currentTimeMillis() -
+              lastEject - GameConstants.MAX_DISCONNECTING_TIME - GameConstants.JOINING_TIME;
+    }
+  }
+
+  private DoubleVector findCentre(){
+    DoubleVector doubleVector = new DoubleVector();
+      for (PlayerCell playerCell:cells){
+        doubleVector.add(new DoubleVector(playerCell.getX(),playerCell.getY()));
+    }
+    double d = (double)1/(double)cells.size();
+    doubleVector.multi(d);
+    return  doubleVector;
   }
 
   @NotNull
