@@ -20,8 +20,8 @@ public class SplitFood extends Food {
             return true;
         double dTime = System.currentTimeMillis() - lastUpdate;
 
-        int newX = (int)(getX() + dTime*getVelocity().getX());
-        int newY = (int)(getY() + dTime*getVelocity().getY());
+        int newX = (int)(getX() + 0.005*dTime*getVelocity().getX());
+        int newY = (int)(getY() + 0.005*dTime*getVelocity().getY());
 
         if (newX < 0){
             newX = 0;

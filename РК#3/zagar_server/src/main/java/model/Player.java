@@ -198,8 +198,15 @@ public class Player {
         splitFood.setX(0);
       if(splitFood.getY() < 0)
         splitFood.setY(0);
-      //dv.normalize().multi(GameConstants.SPLIT_VELOCITY);
-      //splitFood.setVelocity(dv);
+
+      if(splitFood.getX() > GameConstants.FIELD_WIDTH)
+        splitFood.setX(GameConstants.FIELD_WIDTH);
+
+      if (splitFood.getY() > GameConstants.FIELD_HEIGHT)
+        splitFood.setY(GameConstants.FIELD_HEIGHT);
+
+      dv.normalize();
+      splitFood.setVelocity(dv);
       splitFoods.add(splitFood);
       System.out.println(splitFoods.size());
     }
