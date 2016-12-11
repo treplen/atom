@@ -33,6 +33,8 @@ public class Game {
   @NotNull
   private static final Logger log = LogManager.getLogger(Game.class);
   @NotNull
+  public static int id;
+  @NotNull
   public static volatile Cell[] cells = new Cell[0];
   @NotNull
   public static volatile Food[] food = new Food[0];

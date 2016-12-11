@@ -78,13 +78,13 @@ public class ServerConnectionSocket {
           new PacketHandlerAuthFail(msg);
           break;
         case CommandAuthOk.NAME:
-          new PacketHandlerAuthOk();
+          new PacketHandlerAuthOk(msg);
           break;
       }
     }
     catch(Exception e){
       e.printStackTrace();
-      System.out.println("Bol`no");
+     // System.out.println("Bol`no");
     }
   }
 }
