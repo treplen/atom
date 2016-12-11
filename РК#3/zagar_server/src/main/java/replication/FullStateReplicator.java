@@ -52,7 +52,7 @@ import java.util.stream.Stream;
         numberOfCellsInSession += player.getCells().size();
       }
 
-      Cell[] cells = new Cell[numberOfCellsInSession+2];
+      Cell[] cells = new Cell[numberOfCellsInSession];
       i=0;
       for (Player player : gameSession.getPlayers()) {
         for (PlayerCell playerCell : player.getCells()) {
