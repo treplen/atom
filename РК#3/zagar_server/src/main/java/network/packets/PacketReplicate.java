@@ -27,10 +27,12 @@ public class PacketReplicate {
     this.food = food;
   }
 
+  @NotNull
   public Food[] getFood(){
     return food;
   }
 
+  @NotNull
   public Cell[] getCells() {
     return cells;
   }
@@ -49,7 +51,6 @@ public class PacketReplicate {
 
   public void write(@NotNull Session session) throws IOException {
     try {
-      System.out.println("PIRATE5");
       String msg = JSONHelper.toSerial(new CommandReplicate(food, cells));
       session.getRemote().sendString(msg);
     } catch (Exception ex)

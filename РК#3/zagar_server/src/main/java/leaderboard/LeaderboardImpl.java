@@ -33,19 +33,6 @@ import java.util.Map;
 public class LeaderboardImpl extends Leaderboard implements Tickable {
     @NotNull
     private final static Logger log = LogManager.getLogger(LeaderboardImpl.class);
-    String file;
-
-    public LeaderboardImpl() {
-        file= Configurations.getStringProperty("leaderboard");
-        try (PrintWriter writer = new PrintWriter(file, "UTF-8")) {
-            writer.print(JSONHelper.toJSON(new String[0]));
-            writer.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public void run() {
@@ -80,35 +67,13 @@ public class LeaderboardImpl extends Leaderboard implements Tickable {
     public void update() {
         //log.info("Updating leaderboard");
         ClientConnections clientConnections = ApplicationContext.instance().get(ClientConnections.class);
-        List<Pair<String,Integer>> players = new LinkedList<>();
         for (Map.Entry<Player, Session> connection : clientConnections.getConnections()) {
             int score=0;
             Player player=connection.getKey();
             for(Cell cell:player.getCells()) {
                 score+=cell.getMass();
             }
-            players.add(new Pair<>(player.getName(),score));
-        }
-        players.sort(new Comparator<Pair<String, Integer>>() {
-            @Override
-            public int compare(Pair<String, Integer> o1, Pair<String, Integer> o2) {
-                return o2.getValue().compareTo(o1.getValue());
-            }
-        });
-        int size=Integer.min(10,players.size());
-        String[] best = new String[size];
-        for (int i =0;i<size;i++) {
-            Pair<String,Integer> player=players.get(i);
-            best[i] = player.getKey();
-        }
-
-        try (PrintWriter writer = new PrintWriter(file, "UTF-8")) {
-            writer.print(JSONHelper.toJSON(best));
-            writer.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            LeaderboardState.update(player.getName(),score);
         }
     }
 }

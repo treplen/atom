@@ -55,10 +55,8 @@ public class ClientConnectionHandler extends WebSocketAdapter {
 
   public void handlePacket(@NotNull String msg) {
     try {
-      System.out.println("PIRATE1");
       Command com = (Command) JSONHelper.fromSerial(msg);
       String name = com.getCommand();
-      System.out.println("PIRATE2");
       switch (name) {
         case CommandAuth.NAME:
           new PacketHandlerAuth(getSession(), msg);
@@ -73,7 +71,7 @@ public class ClientConnectionHandler extends WebSocketAdapter {
           new PacketHandlerSplit(getSession(), msg);
           break;
       }
-    }catch(Exception e){}
+    }catch(Exception ignored){}
   }
 
 }
