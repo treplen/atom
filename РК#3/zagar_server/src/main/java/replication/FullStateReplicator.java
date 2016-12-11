@@ -52,14 +52,15 @@ import java.util.stream.Stream;
         numberOfCellsInSession += player.getCells().size();
       }
 
-      Cell[] cells = new Cell[numberOfCellsInSession];
+      Cell[] cells = new Cell[numberOfCellsInSession+2];
       i=0;
       for (Player player : gameSession.getPlayers()) {
         for (PlayerCell playerCell : player.getCells()) {
-          cells[i] = new Cell(playerCell.getId(), player.getId(), false, playerCell.getMass(), playerCell.getX(), playerCell.getY());
+          cells[i] = new Cell(player.getId(), player.getId(), false, playerCell.getMass(), playerCell.getX(), playerCell.getY());
           i++;
         }
       }
+
 
       for (Virus virus : gameSession.getField().getViruses()){
         cells[i] = new Cell(-1,-1,true,virus.getMass(),virus.getX(),virus.getY());

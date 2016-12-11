@@ -23,8 +23,14 @@ public class Cell {
   public double xRender;
   public double yRender;
   public int mass;
-  private final boolean virus;
+  private boolean virus;
   private float rotation = 0;
+
+  public int getId(){
+    return id;
+  }
+
+  public boolean getVirus(){ return virus; }
 
   public Cell(double x, double y, float size, int id, boolean isVirus) {
     this.x = x;

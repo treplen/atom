@@ -14,12 +14,13 @@ import java.io.IOException;
 public class PacketAuthOk {
   @NotNull
   private static final Logger log = LogManager.getLogger(PacketAuthOk.class);
-  public PacketAuthOk() {
+  int id;
+  public PacketAuthOk(int id) {
+    this.id = id;
   }
 
   public void write(@NotNull Session session) throws IOException {
-    System.out.println("SEND OK");
-    String msg = JSONHelper.toSerial(new CommandAuthOk());
+    String msg = JSONHelper.toSerial(new CommandAuthOk(id));
     log.info("Sending [" + msg + "]");
     try {
       session.getRemote().sendString(msg);

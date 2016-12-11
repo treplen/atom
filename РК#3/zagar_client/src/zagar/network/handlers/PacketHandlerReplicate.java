@@ -39,9 +39,11 @@ public class PacketHandlerReplicate {
       protocol.model.Food f = commandReplicate.getFood()[i];
       gamefood[i] = new Food(-1,f.getX(),f.getY());
     }
-
     Game.player.clear();
-    Collections.addAll(Game.player, gameCells);
+    for (Cell gamecell : gameCells){
+      if ((gamecell.getId() == Game.id) && !gamecell.getVirus())
+        Game.player.add(gamecell);
+    }
     Game.cells = gameCells;
     Game.food = gamefood;
 

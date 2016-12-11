@@ -21,7 +21,9 @@ public class PacketHandlerAuth {
   public PacketHandlerAuth(@NotNull Session session, @NotNull String json) {
     CommandAuth commandAuth;
     try {
+      //System.out.println("PIRATE3");
       commandAuth =(CommandAuth) JSONHelper.fromSerial(json);
+      //System.out.println("PIRATE4");
     } catch (Exception e) {
       e.printStackTrace();
       return;
@@ -43,7 +45,7 @@ public class PacketHandlerAuth {
           }
         Player player = new Player(Player.idGenerator.next(), commandAuth.getLogin());
         connections.registerConnection(player, session);
-        new PacketAuthOk().write(session);
+        new PacketAuthOk(player.getId()).write(session);
         ApplicationContext.instance().get(MatchMaker.class).joinGame(player);
       } catch (IOException e){
           e.printStackTrace();
