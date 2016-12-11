@@ -22,8 +22,10 @@ public class PacketHandlerReplicate {
   public PacketHandlerReplicate(@NotNull String json) {
     CommandReplicate commandReplicate;
     try {
-      commandReplicate = JSONHelper.fromJSON(json, CommandReplicate.class);
-    } catch (JSONDeserializationException e) {
+      commandReplicate = (CommandReplicate) JSONHelper.fromSerial(json);
+      //System.out.println(commandReplicate.getCells()[0]);
+     // System.out.println("PIRATE3");
+    } catch (Exception e) {
       e.printStackTrace();
       return;
     }

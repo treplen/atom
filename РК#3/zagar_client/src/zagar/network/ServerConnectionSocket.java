@@ -61,21 +61,30 @@ public class ServerConnectionSocket {
   }
 
   public void handlePacket(@NotNull String msg) {
-    JsonObject json = JSONHelper.getJSONObject(msg);
-    String name = json.get("command").getAsString();
-    switch (name) {
-      case CommandLeaderBoard.NAME:
-        new PacketHandlerLeaderBoard(msg);
-        break;
-      case CommandReplicate.NAME:
-        new PacketHandlerReplicate(msg);
-        break;
-      case CommandAuthFail.NAME:
-        new PacketHandlerAuthFail(msg);
-        break;
-      case CommandAuthOk.NAME:
-        new PacketHandlerAuthOk();
-        break;
+    try {
+      //System.out.println("PIRATE1");
+      Command com = (Command) JSONHelper.fromSerial(msg);
+      String name = com.getCommand();
+      //System.out.println(name);
+     // System.out.println("PIRATE2");
+      switch (name) {
+        case CommandLeaderBoard.NAME:
+          new PacketHandlerLeaderBoard(msg);
+          break;
+        case CommandReplicate.NAME:
+          new PacketHandlerReplicate(msg);
+          break;
+        case CommandAuthFail.NAME:
+          new PacketHandlerAuthFail(msg);
+          break;
+        case CommandAuthOk.NAME:
+          new PacketHandlerAuthOk();
+          break;
+      }
+    }
+    catch(Exception e){
+      e.printStackTrace();
+      System.out.println("Bol`no");
     }
   }
 }

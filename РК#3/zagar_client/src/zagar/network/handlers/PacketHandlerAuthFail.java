@@ -11,8 +11,8 @@ public class PacketHandlerAuthFail {
   public PacketHandlerAuthFail(@NotNull String json) {
     CommandAuthFail commandAuthFail;
     try {
-      commandAuthFail = JSONHelper.fromJSON(json, CommandAuthFail.class);
-    } catch (JSONDeserializationException e) {
+      commandAuthFail = (CommandAuthFail) JSONHelper.fromSerial(json);
+    } catch (Exception e) {
       e.printStackTrace();
       return;
     }

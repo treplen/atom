@@ -10,8 +10,8 @@ public class PacketHandlerLeaderBoard {
   public PacketHandlerLeaderBoard(@NotNull String json) {
     CommandLeaderBoard commandLeaderBoard;
     try {
-      commandLeaderBoard = JSONHelper.fromJSON(json, CommandLeaderBoard.class);
-    } catch (JSONDeserializationException e) {
+      commandLeaderBoard = (CommandLeaderBoard) JSONHelper.fromSerial(json);
+    } catch (Exception e) {
       e.printStackTrace();
       return;
     }

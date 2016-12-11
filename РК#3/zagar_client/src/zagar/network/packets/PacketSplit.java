@@ -22,7 +22,7 @@ public class PacketSplit {
   }
 
   public void write() throws IOException {
-    String msg = JSONHelper.toJSON(new CommandSplit(dx,dy));
+    String msg = JSONHelper.toSerial(new CommandSplit(dx,dy));
     log.info("Sending [" + msg + "]");
     Game.socket.session.getRemote().sendString(msg);
   }

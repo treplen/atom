@@ -24,7 +24,7 @@ public class PacketMove {
   }
 
   public void write() throws IOException {
-    String msg = JSONHelper.toJSON(new CommandMove(x, y));
+    String msg = JSONHelper.toSerial(new CommandMove(x, y));
     log.info("Sending [" + msg + "]");
     Game.socket.session.getRemote().sendString(msg);
   }
