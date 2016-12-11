@@ -60,8 +60,7 @@ import java.util.stream.Stream;
           i++;
         }
       }
-      cells[i] = new Cell (1000,1000,false,100,100,100);
-      cells[i+1] = new Cell (-1,-1,true,50,100,0);
+
 
       for (Virus virus : gameSession.getField().getViruses()){
         cells[i] = new Cell(-1,-1,true,virus.getMass(),virus.getX(),virus.getY());
