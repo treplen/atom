@@ -12,10 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketAdapter;
 import org.jetbrains.annotations.NotNull;
-import protocol.CommandAuth;
-import protocol.CommandEjectMass;
-import protocol.CommandMove;
-import protocol.CommandSplit;
+import protocol.*;
 import utils.JSONHelper;
 
 import java.util.Map;
@@ -57,21 +54,26 @@ public class ClientConnectionHandler extends WebSocketAdapter {
   }
 
   public void handlePacket(@NotNull String msg) {
-    JsonObject json = JSONHelper.getJSONObject(msg);
-    String name = json.get("command").getAsString();
-    switch (name) {
-      case CommandAuth.NAME:
-        new PacketHandlerAuth(getSession(), msg);
-        break;
-      case CommandEjectMass.NAME:
-        new PacketHandlerEjectMass(getSession(), msg);
-        break;
-      case CommandMove.NAME:
-        new PacketHandlerMove(getSession(), msg);
-        break;
-      case CommandSplit.NAME:
-        new PacketHandlerSplit(getSession(), msg);
-        break;
-    }
+    try {
+      System.out.println("PIRATE1");
+      Command com = (Command) JSONHelper.fromSerial(msg);
+      String name = com.getCommand();
+      System.out.println("PIRATE2");
+      switch (name) {
+        case CommandAuth.NAME:
+          new PacketHandlerAuth(getSession(), msg);
+          break;
+        case CommandEjectMass.NAME:
+          new PacketHandlerEjectMass(getSession(), msg);
+          break;
+        case CommandMove.NAME:
+          new PacketHandlerMove(getSession(), msg);
+          break;
+        case CommandSplit.NAME:
+          new PacketHandlerSplit(getSession(), msg);
+          break;
+      }
+    }catch(Exception e){}
   }
+
 }

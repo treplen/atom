@@ -23,8 +23,8 @@ public class PacketHandlerSplit {
   public PacketHandlerSplit(@NotNull Session session, @NotNull String json) {
     CommandSplit commandSplit;
     try {
-      commandSplit = JSONHelper.fromJSON(json, CommandSplit.class);
-    } catch (JSONDeserializationException e) {
+      commandSplit = (CommandSplit) JSONHelper.fromSerial(json);
+    } catch (Exception e) {
       e.printStackTrace();
       return;
     }

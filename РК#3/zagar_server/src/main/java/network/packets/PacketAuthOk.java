@@ -18,7 +18,8 @@ public class PacketAuthOk {
   }
 
   public void write(@NotNull Session session) throws IOException {
-    String msg = JSONHelper.toJSON(new CommandAuthOk());
+    System.out.println("SEND OK");
+    String msg = JSONHelper.toSerial(new CommandAuthOk());
     log.info("Sending [" + msg + "]");
     try {
       session.getRemote().sendString(msg);

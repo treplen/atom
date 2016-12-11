@@ -48,10 +48,11 @@ public class PacketReplicate {
   }
 
   public void write(@NotNull Session session) throws IOException {
-    String msg = JSONHelper.toJSON(new CommandReplicate(food, cells));
     try {
+      System.out.println("PIRATE5");
+      String msg = JSONHelper.toSerial(new CommandReplicate(food, cells));
       session.getRemote().sendString(msg);
-    } catch (WebSocketException ex)
+    } catch (Exception ex)
     {
       log.error("Failed to send",ex);
     }

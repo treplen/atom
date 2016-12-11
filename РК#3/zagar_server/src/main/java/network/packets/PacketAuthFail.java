@@ -28,7 +28,7 @@ public class PacketAuthFail {
   }
 
   public void write(@NotNull Session session) throws IOException {
-    String msg = JSONHelper.toJSON(new CommandAuthFail(login, token, cause));
+    String msg = JSONHelper.toSerial(new CommandAuthFail(login, token, cause));
     log.info("Sending [" + msg + "]");
     try {
       session.getRemote().sendString(msg);

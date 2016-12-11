@@ -21,8 +21,10 @@ public class PacketHandlerAuth {
   public PacketHandlerAuth(@NotNull Session session, @NotNull String json) {
     CommandAuth commandAuth;
     try {
-      commandAuth = JSONHelper.fromJSON(json, CommandAuth.class);
-    } catch (JSONDeserializationException e) {
+      System.out.println("PIRATE3");
+      commandAuth =(CommandAuth) JSONHelper.fromSerial(json);
+      System.out.println("PIRATE4");
+    } catch (Exception e) {
       e.printStackTrace();
       return;
     }

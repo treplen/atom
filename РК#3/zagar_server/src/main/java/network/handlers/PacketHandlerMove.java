@@ -23,8 +23,8 @@ public class PacketHandlerMove {
   public PacketHandlerMove(@NotNull Session session, @NotNull String json) {
     CommandMove commandMove;
     try {
-      commandMove = JSONHelper.fromJSON(json, CommandMove.class);
-    } catch (JSONDeserializationException e) {
+      commandMove = (CommandMove) JSONHelper.fromSerial(json);
+    } catch (Exception e) {
       e.printStackTrace();
       return;
     }

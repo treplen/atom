@@ -23,7 +23,7 @@ public class PacketLeaderBoard {
   }
 
   public void write(@NotNull Session session) throws IOException {
-    String msg = JSONHelper.toJSON(new CommandLeaderBoard(leaderBoard));
+    String msg = JSONHelper.toSerial(new CommandLeaderBoard(leaderBoard));
     log.info("Sending [" + msg + "]");
     try {
       session.getRemote().sendString(msg);

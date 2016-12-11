@@ -20,8 +20,8 @@ public class PacketHandlerEjectMass {
   public PacketHandlerEjectMass(@NotNull Session session, @NotNull String json) {
     CommandEjectMass commandEjectMass;
     try {
-      commandEjectMass = JSONHelper.fromJSON(json, CommandEjectMass.class);
-    } catch (JSONDeserializationException e) {
+      commandEjectMass = (CommandEjectMass) JSONHelper.fromSerial(json);
+    } catch (Exception e) {
       e.printStackTrace();
       return;
     }
