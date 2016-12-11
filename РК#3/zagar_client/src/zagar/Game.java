@@ -73,46 +73,23 @@ public class Game {
 
     this.spawnPlayer = 100;
 
+    authenticate();
+
     final WebSocketClient client = new WebSocketClient();
-    try {
-      ClientUpgradeRequest request = new ClientUpgradeRequest();
-      request.setHeader("Origin", "zagar.io");
-      this.socket = new ServerConnectionSocket();
-      while (Game.state.equals(GameState.NOT_AUTHORIZED)) {
-        Game.serverToken = null;
-        authenticate();
+    socket = new ServerConnectionSocket();
+    new Thread(() -> {
+      try {
+        client.start();
         URI serverURI = new URI(gameServerUrl + "/clientConnection");
-        Thread thread = new Thread(() -> {
-          try {
-            client.start();
-            client.connect(socket, serverURI, request);
-            log.info("Trying to connect <" + gameServerUrl + ">");
-            socket.awaitClose(7, TimeUnit.DAYS);
-          } catch (Throwable t) {
-            t.printStackTrace();
-          }
-          Game.state = GameState.NOT_AUTHORIZED;
-        });
-        Game.state = GameState.CONNECTING;
-        thread.start();
-        for (int j = 0; j < 10; j++) {
-          Thread.sleep(500);
-          if (Game.state != GameState.CONNECTING)
-            break;
-        }
-        if (Game.state == GameState.NOT_AUTHORIZED)
-          Reporter.reportWarn("Connection failed", "Server rejected your connection");
-        if (Game.state == GameState.CONNECTING) {
-          Reporter.reportWarn("Connection failed", "Connection TIME OUT");
-          Game.state=GameState.NOT_AUTHORIZED;
-        }
-        if(Game.state!=GameState.AUTHORIZED){
-          client.stop();
-          thread.interrupt();
-        }
+        ClientUpgradeRequest request = new ClientUpgradeRequest();
+        request.setHeader("Origin", "zagar.io");
+        client.connect(socket, serverURI, request);
+        log.info("Trying to connect <" + gameServerUrl + ">");
+        socket.awaitClose(7, TimeUnit.DAYS);
+      } catch (Throwable t) {
+        t.printStackTrace();
       }
-    }catch(Throwable t)
-    {t.printStackTrace();}
+    }).start();
   }
 
   private void selectHost()
