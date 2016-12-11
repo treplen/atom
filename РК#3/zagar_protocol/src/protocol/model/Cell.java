@@ -1,9 +1,11 @@
 package protocol.model;
 
+import java.io.Serializable;
+
 /**
  * @author apomosov
  */
-public final class Cell {
+public final class Cell implements Serializable {
   private final int cellId;
   private final int playerId;
   private final boolean isVirus;

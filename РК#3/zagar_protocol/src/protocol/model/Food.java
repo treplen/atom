@@ -1,9 +1,11 @@
 package protocol.model;
 
+import java.io.Serializable;
+
 /**
  * @author apomosov
  */
-public final class Food {
+public final class Food implements Serializable{
   private int x;
   private int y;
 
