@@ -1,7 +1,6 @@
 package leaderboard;
 
 import main.Service;
-import ticker.Tickable;
 
 /**
  * Created by svuatoslav on 11/28/16.

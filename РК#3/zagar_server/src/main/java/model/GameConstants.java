@@ -14,7 +14,7 @@ public interface GameConstants {
   int MAX_FOOD_ON_FIELD = 100;
   int NUMBER_OF_VIRUSES = 3;
   int MIN_MASS_FOR_EJECT = 80;
-  int UNGOVERABLE_TIME = 500;
+  int UNGOVERNABLE_TIME = 500;
   int MAX_DISCONNECTING_TIME = 4_000;
   int JOINING_TIME = 1_000;
   int MIN_MASS_TO_SPLIT = 100;

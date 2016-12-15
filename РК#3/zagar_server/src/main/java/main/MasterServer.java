@@ -18,7 +18,7 @@ public class MasterServer {
   private final static Logger log = LogManager.getLogger(MasterServer.class);
   private boolean ready;
 
-  public void start() throws ExecutionException, InterruptedException {
+  public void start() throws InterruptedException {
     log.info("MasterServer started");
 
     ready=false;
@@ -27,13 +27,13 @@ public class MasterServer {
 
     try {
       Class<?> tempClass = Class.forName(Configurations.getStringProperty("matchMaker"));
-      ApplicationContext.instance().put(MatchMaker.class, (MatchMaker) tempClass.newInstance());
+      ApplicationContext.instance().put(MatchMaker.class, tempClass.newInstance());
       tempClass = Class.forName(Configurations.getStringProperty("replicator"));
-      ApplicationContext.instance().put(Replicator.class, (Replicator) tempClass.newInstance());
+      ApplicationContext.instance().put(Replicator.class, tempClass.newInstance());
       tempClass = Class.forName(Configurations.getStringProperty("clientConnections"));
-      ApplicationContext.instance().put(ClientConnections.class, (ClientConnections) tempClass.newInstance());
+      ApplicationContext.instance().put(ClientConnections.class, tempClass.newInstance());
       tempClass = Class.forName(Configurations.getStringProperty("idGenerator"));
-      ApplicationContext.instance().put(IDGenerator.class, (IDGenerator) tempClass.newInstance());
+      ApplicationContext.instance().put(IDGenerator.class, tempClass.newInstance());
       tempClass = Class.forName(Configurations.getStringProperty("messageSystem"));
       messageSystem = (MessageSystem) tempClass.newInstance();
       ApplicationContext.instance().put(MessageSystem.class, messageSystem);

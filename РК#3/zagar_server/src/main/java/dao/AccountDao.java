@@ -8,10 +8,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.lang.Math.random;
 
 public class AccountDao {
     private static final Logger log = LogManager.getLogger(AccountDao.class);

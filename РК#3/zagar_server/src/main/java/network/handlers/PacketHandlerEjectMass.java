@@ -1,7 +1,6 @@
 package network.handlers;
 
 import main.ApplicationContext;
-import mechanics.Mechanics;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
 import messageSystem.messages.EjectMassMsg;
@@ -11,7 +10,6 @@ import network.ClientConnections;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandEjectMass;
-import utils.JSONDeserializationException;
 import utils.JSONHelper;
 
 import java.io.IOException;
@@ -22,11 +20,8 @@ public class PacketHandlerEjectMass {
     CommandEjectMass commandEjectMass;
     try {
       commandEjectMass = (CommandEjectMass) JSONHelper.fromSerial(json);
-    } catch (IOException IOex ){
-      IOex.printStackTrace();
-      return;
-    }catch(ClassNotFoundException CNFex){
-      CNFex.printStackTrace();
+    } catch (IOException | ClassNotFoundException ex ){
+      ex.printStackTrace();
       return;
     }
     MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);

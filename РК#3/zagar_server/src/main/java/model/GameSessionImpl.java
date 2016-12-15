@@ -1,6 +1,5 @@
 package model;
 
-import main.ApplicationContext;
 import org.jetbrains.annotations.NotNull;
 import utils.*;
 
@@ -22,15 +21,11 @@ public class GameSessionImpl implements GameSession {
   private final FoodGenerator foodGenerator;
   @NotNull
   private final PlayerPlacer playerPlacer;
-  @NotNull
-  private final VirusGenerator virusGenerator;
 
-  public GameSessionImpl(@NotNull Field field,@NotNull FoodGenerator foodGenerator, @NotNull PlayerPlacer playerPlacer, @NotNull VirusGenerator virusGenerator) {
+  public GameSessionImpl(@NotNull Field field,@NotNull FoodGenerator foodGenerator, @NotNull PlayerPlacer playerPlacer) {
     this.foodGenerator = foodGenerator;
     this.playerPlacer = playerPlacer;
-    this.virusGenerator = virusGenerator;
     this.field = field;
-    virusGenerator.generate();
     foodGenerator.run();
   }
 
@@ -50,6 +45,7 @@ public class GameSessionImpl implements GameSession {
     return new ArrayList<>(players);
   }
 
+  @NotNull
   @Override
   public Field getField() {
     return field;

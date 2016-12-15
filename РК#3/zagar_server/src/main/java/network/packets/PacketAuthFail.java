@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketException;
 import org.jetbrains.annotations.NotNull;
-import protocol.CommandAuth;
 import protocol.CommandAuthFail;
 import utils.JSONHelper;
 
@@ -37,7 +36,7 @@ public class PacketAuthFail {
     }
     try {
       session.disconnect();
-    } catch (WebSocketException ex) {
+    } catch (WebSocketException ignored) {
     }
   }
 }

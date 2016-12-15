@@ -2,8 +2,6 @@ package model;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -17,12 +15,12 @@ public class Field {
   @NotNull
   private final List<Virus> viruses = new CopyOnWriteArrayList<>();
   //@NotNull
-  //private final HashSet<Food> foods = new HashSet<>();
+  //private final HashSet<Food> foodSet = new HashSet<>();
 
   @NotNull
-  private final CopyOnWriteArraySet<Food> foods = new CopyOnWriteArraySet<>();
+  private final CopyOnWriteArraySet<Food> foodSet = new CopyOnWriteArraySet<>();
   @NotNull
-  private final CopyOnWriteArraySet<SplitFood> splitFoods = new CopyOnWriteArraySet<>();
+  private final CopyOnWriteArraySet<SplitFood> splitFoodSet = new CopyOnWriteArraySet<>();
 
 
   public Field() {
@@ -37,22 +35,22 @@ public class Field {
   }
 
   @NotNull
-  public CopyOnWriteArraySet<Food> getFoods() {
-    return foods;
+  public CopyOnWriteArraySet<Food> getFoodSet() {
+    return foodSet;
   }
 
   @NotNull
-  public CopyOnWriteArraySet<SplitFood> getSplitFoods() {
-    return splitFoods;
+  public CopyOnWriteArraySet<SplitFood> getSplitFoodSet() {
+    return splitFoodSet;
   }
 
   public void addFood(Food food){
-    foods.add(food);
+    foodSet.add(food);
   }
   public void addSplitFood(SplitFood food){
-    splitFoods.add(food);
+    splitFoodSet.add(food);
   }
-  public void addVirus(Virus virus) {viruses.add(virus);};
+  public void addVirus(Virus virus) {viruses.add(virus);}
 
   public int getWidth() {
     return width;

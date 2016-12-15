@@ -9,15 +9,11 @@ import model.Virus;
 import network.ClientConnections;
 import network.packets.PacketReplicate;
 import org.eclipse.jetty.websocket.api.Session;
-import protocol.CommandReplicate;
 import protocol.model.Cell;
 import protocol.model.Food;
-import utils.JSONHelper;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.Stream;
 
 /**
  * @author Alpi
@@ -29,17 +25,17 @@ import java.util.stream.Stream;
     for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
 
       int numberOfFoodsInSession =0;
-      numberOfFoodsInSession += gameSession.getField().getFoods().size();
-      numberOfFoodsInSession += gameSession.getField().getSplitFoods().size();
+      numberOfFoodsInSession += gameSession.getField().getFoodSet().size();
+      numberOfFoodsInSession += gameSession.getField().getSplitFoodSet().size();
       Food[] food = new Food[numberOfFoodsInSession];
 
       int i = 0;
-      for (model.Food foods : gameSession.getField().getFoods())  {
+      for (model.Food foods : gameSession.getField().getFoodSet())  {
         food[i] = new Food(foods.getX(),foods.getY());
         i++;
       }
 
-      for (model.SplitFood foods : gameSession.getField().getSplitFoods())  {
+      for (model.SplitFood foods : gameSession.getField().getSplitFoodSet())  {
         food[i] = new Food(foods.getX(),foods.getY());
         i++;
       }
@@ -68,21 +64,10 @@ import java.util.stream.Stream;
       }
 
       for (Map.Entry<Player, Session> connection : ApplicationContext.instance().get(ClientConnections.class).getConnections()) {
-        if (gameSession.getPlayers().contains(connection.getKey())) {
-          try {
-            new PacketReplicate(cells, food).write(connection.getValue());
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
-        }
+        if (gameSession.getPlayers().contains(connection.getKey()))
+          new PacketReplicate(cells, food).write(connection.getValue());
       }
     }
-
-    /*ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions().stream().flatMap(
-        gameSession -> gameSession.getPlayers().stream().flatMap(
-            player -> player.getCells().stream()
-        )
-    ).map(playerCell -> new Cell(playerCell.getId(), ))*/
   }
 
 

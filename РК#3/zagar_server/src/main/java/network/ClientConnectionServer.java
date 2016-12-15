@@ -11,12 +11,8 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.jetbrains.annotations.NotNull;
 import utils.Configurations;
-import utils.PropertiesReader;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
 
 /**
  * Created by apomosov on 13.06.16.
@@ -26,7 +22,7 @@ public class ClientConnectionServer extends Service {
   private final static Logger log = LogManager.getLogger(MasterServer.class);
   private final int port;
 
-  public ClientConnectionServer() throws IOException {
+  public ClientConnectionServer(){
     super("client_connection_service");
     port = Configurations.getIntProperty("clientConnectionPort");
   }
@@ -52,7 +48,7 @@ public class ClientConnectionServer extends Service {
 
     log.info(getAddress() + " started on port " + port);
 
-    while (true) {
+    while (!Thread.interrupted()) {
       ApplicationContext.instance().get(MessageSystem.class).execForService(this);
     }
   }

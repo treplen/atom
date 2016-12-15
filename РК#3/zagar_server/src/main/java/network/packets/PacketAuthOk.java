@@ -6,7 +6,6 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketException;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandAuthOk;
-import protocol.CommandSplit;
 import utils.JSONHelper;
 
 import java.io.IOException;

@@ -1,10 +1,5 @@
 package model;
 
-import utils.IDGenerator;
-import utils.SequentialIDGenerator;
-
-import javax.swing.border.MatteBorder;
-
 /**
  * @author apomosov
  */
@@ -27,7 +22,7 @@ public class PlayerCell extends Cell {
   public DoubleVector getVelocity(){return velocity;}
   public void setVelocity(DoubleVector velocity){this.velocity = velocity;}
 
-  public boolean getUngovernable(){return  ungovernable;}
+  public boolean getUngovernable(){return ungovernable;}
   public void setUngovernable(boolean ungovernable){
     this.ungovernable = ungovernable;
     becameUngovernable = System.currentTimeMillis();
@@ -35,7 +30,7 @@ public class PlayerCell extends Cell {
 
   public void updateVelocity(double x, double y){
     if(ungovernable){
-      if(System.currentTimeMillis() - becameUngovernable > GameConstants.UNGOVERABLE_TIME)
+      if(System.currentTimeMillis() - becameUngovernable > GameConstants.UNGOVERNABLE_TIME)
         ungovernable = false;
       return;
     }
@@ -73,10 +68,7 @@ public class PlayerCell extends Cell {
                     (getY() - playerCell.getY())*(getY() - playerCell.getY())
             );
 
-    if (r <  getMass() + playerCell.getMass() && !playerCell.getUngovernable())
-      return true;
-    else
-      return false;
+    return r < getMass() + playerCell.getMass() && !playerCell.getUngovernable();
 
   }
 }

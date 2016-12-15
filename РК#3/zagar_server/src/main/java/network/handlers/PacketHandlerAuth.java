@@ -10,8 +10,6 @@ import network.packets.PacketAuthOk;
 import org.eclipse.jetty.websocket.api.Session;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandAuth;
-import utils.IDGenerator;
-import utils.JSONDeserializationException;
 import utils.JSONHelper;
 
 import java.io.IOException;
@@ -22,11 +20,8 @@ public class PacketHandlerAuth {
     CommandAuth commandAuth;
     try {
       commandAuth =(CommandAuth) JSONHelper.fromSerial(json);
-    } catch (IOException IOex ){
-      IOex.printStackTrace();
-      return;
-    }catch(ClassNotFoundException CNFex){
-      CNFex.printStackTrace();
+    } catch (IOException | ClassNotFoundException ex ){
+      ex.printStackTrace();
       return;
     }
     if (!AuthenticationServlet.validateToken(commandAuth.getToken())) {

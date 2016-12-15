@@ -2,7 +2,6 @@ package messageSystem.messages;
 
 import leaderboard.Leaderboard;
 import main.ApplicationContext;
-import main.Service;
 import messageSystem.Abonent;
 import messageSystem.Address;
 import messageSystem.Message;

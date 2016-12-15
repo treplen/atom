@@ -6,12 +6,12 @@ public class GameThread extends Thread implements Runnable {
   }
   @Override
   public void run() {
-    while (true) {
+    while (!Thread.interrupted()) {
       long preTickTime = System.currentTimeMillis();
       try{
         Main.updateGame();
       } catch (Throwable e) {
-        System.err.println(e);
+        e.printStackTrace();
       }
       if (System.currentTimeMillis() % 100 == 0) {
         if( (System.currentTimeMillis() - preTickTime) == 0)

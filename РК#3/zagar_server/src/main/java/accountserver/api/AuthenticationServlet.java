@@ -96,7 +96,7 @@ public class AuthenticationServlet {
     }
   }
 
-  private boolean authenticate(@NotNull String user, @NotNull String password) throws Exception {
+  private boolean authenticate(@NotNull String user, @NotNull String password) {
     Pair<String,String> credentials=dao.getByUser(user);
     return (credentials!=null)&&password.equals(credentials.getValue());
   }

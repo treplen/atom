@@ -2,7 +2,6 @@ package zagar.network.handlers;
 
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandAuthFail;
-import zagar.util.JSONDeserializationException;
 import zagar.util.JSONHelper;
 import zagar.Game;
 import zagar.util.Reporter;
@@ -14,11 +13,8 @@ public class PacketHandlerAuthFail {
     CommandAuthFail commandAuthFail;
     try {
       commandAuthFail = (CommandAuthFail) JSONHelper.fromSerial(json);
-    } catch (IOException IOex ){
-      IOex.printStackTrace();
-      return;
-    }catch(ClassNotFoundException CNFex){
-      CNFex.printStackTrace();
+    } catch (IOException | ClassNotFoundException ex ){
+      ex.printStackTrace();
       return;
     }
     Game.state = Game.GameState.NOT_AUTHORIZED;

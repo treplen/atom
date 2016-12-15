@@ -1,7 +1,5 @@
 package model;
 
-import main.ApplicationContext;
-import mechanics.Mechanics;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -9,9 +7,7 @@ import utils.EatComparator;
 import utils.IDGenerator;
 import utils.SequentialIDGenerator;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
@@ -28,9 +24,10 @@ public class Player {
   @NotNull
   private final List<PlayerCell> cells = new CopyOnWriteArrayList<>();
   @NotNull
+  private
   EatComparator eatComparator = new EatComparator();
   @NotNull
-  private final CopyOnWriteArraySet<SplitFood> splitFoods = new CopyOnWriteArraySet<>();
+  private final CopyOnWriteArraySet<SplitFood> splitFoodSet = new CopyOnWriteArraySet<>();
 
   private double lastUpdate;
   private double lastSplit;
@@ -134,7 +131,7 @@ public class Player {
     lastUpdate = System.currentTimeMillis();
   }
 
-  public boolean eate(Cell food){
+  public boolean eat(Cell food){
     for(PlayerCell playerCell: cells) {
       double dx = playerCell.getX() - food.getX();
       double dy = playerCell.getY() - food.getY();
@@ -180,7 +177,7 @@ public class Player {
     }
   }
 
-  public void checkSplit(){
+  private void checkSplit(){
     if( lastSplit != -1 && System.currentTimeMillis() - lastSplit >GameConstants.MAX_DISCONNECTING_TIME ){
       PlayerCell mainCell = cells.get(0);
       for(int i = 1;i<cells.size();i++){
@@ -233,14 +230,14 @@ public class Player {
 
       dv.normalize();
       splitFood.setVelocity(dv);
-      splitFoods.add(splitFood);
+      splitFoodSet.add(splitFood);
       lastEject = System.currentTimeMillis();
     }
   }
 
   @NotNull
-  public CopyOnWriteArraySet<SplitFood> getSplitFoods() {
-    return splitFoods;
+  public CopyOnWriteArraySet<SplitFood> getSplitFoodSet() {
+    return splitFoodSet;
   }
 
   @NotNull

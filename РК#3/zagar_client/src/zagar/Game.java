@@ -255,9 +255,9 @@ public class Game {
       }
     }
 
-    for (int i = 0; i < cells.length; i++) {
-      if (cells[i] != null) {
-        cells[i].tick();
+    for (Cell cell : cells) {
+      if (cell != null) {
+        cell.tick();
       }
     }
 

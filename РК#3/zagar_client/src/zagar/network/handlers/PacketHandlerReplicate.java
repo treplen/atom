@@ -1,15 +1,10 @@
 package zagar.network.handlers;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.Collections;
 
-import com.google.gson.JsonObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import protocol.CommandLeaderBoard;
 import protocol.CommandReplicate;
-import zagar.util.JSONDeserializationException;
 import zagar.util.JSONHelper;
 import zagar.view.Cell;
 import zagar.Game;
@@ -26,11 +21,8 @@ public class PacketHandlerReplicate {
       commandReplicate = (CommandReplicate) JSONHelper.fromSerial(json);
       //System.out.println(commandReplicate.getCells()[0]);
      // System.out.println("PIRATE3");
-    } catch (IOException IOex ){
-      IOex.printStackTrace();
-      return;
-    }catch(ClassNotFoundException CNFex){
-      CNFex.printStackTrace();
+    } catch (IOException | ClassNotFoundException ex ){
+      ex.printStackTrace();
       return;
     }
     Cell[] gameCells = new Cell[commandReplicate.getCells().length];

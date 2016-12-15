@@ -3,10 +3,8 @@ package zagar.view;
 import org.jetbrains.annotations.NotNull;
 import zagar.Game;
 import zagar.GameConstants;
-import zagar.Main;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * Created by artem on 29.11.16.

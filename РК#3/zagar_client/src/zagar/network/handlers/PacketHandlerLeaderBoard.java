@@ -1,7 +1,6 @@
 package zagar.network.handlers;
 
 import protocol.CommandLeaderBoard;
-import zagar.util.JSONDeserializationException;
 import zagar.util.JSONHelper;
 import zagar.Game;
 import org.jetbrains.annotations.NotNull;
@@ -13,11 +12,8 @@ public class PacketHandlerLeaderBoard {
     CommandLeaderBoard commandLeaderBoard;
     try {
       commandLeaderBoard = (CommandLeaderBoard) JSONHelper.fromSerial(json);
-    } catch (IOException IOex ){
-      IOex.printStackTrace();
-      return;
-    }catch(ClassNotFoundException CNFex){
-      CNFex.printStackTrace();
+    } catch (IOException | ClassNotFoundException ex ){
+      ex.printStackTrace();
       return;
     }
     Game.leaderBoard = commandLeaderBoard.getLeaderBoard();

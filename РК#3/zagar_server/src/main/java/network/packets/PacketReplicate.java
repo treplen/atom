@@ -3,7 +3,6 @@ package network.packets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
-import org.eclipse.jetty.websocket.api.WebSocketException;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandReplicate;
 import protocol.model.Cell;
@@ -49,11 +48,10 @@ public class PacketReplicate {
     this.food = packetReplicate.getFood();
   }
 
-  public void write(@NotNull Session session) throws IOException {
+  public void write(@NotNull Session session) {
     try {
       String msg = JSONHelper.toSerial(new CommandReplicate(food, cells));
       session.getRemote().sendString(msg);
-      CommandReplicate cr = (CommandReplicate) JSONHelper.fromSerial(msg);
     } catch (Exception ex)
     {
       log.error("Failed to send",ex);

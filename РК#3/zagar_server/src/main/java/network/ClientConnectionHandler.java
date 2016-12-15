@@ -1,6 +1,5 @@
 package network;
 
-import com.google.gson.JsonObject;
 import main.ApplicationContext;
 import model.Player;
 import network.handlers.PacketHandlerAuth;

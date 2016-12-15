@@ -5,9 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.WebSocketException;
 import org.jetbrains.annotations.NotNull;
-import protocol.CommandAuthFail;
 import protocol.CommandLeaderBoard;
-import utils.JSONDeserializationException;
 import utils.JSONHelper;
 
 import java.io.IOException;

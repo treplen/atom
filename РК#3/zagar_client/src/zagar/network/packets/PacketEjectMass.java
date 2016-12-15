@@ -1,7 +1,6 @@
 package zagar.network.packets;
 
 import java.io.IOException;
-import java.rmi.activation.ActivationGroupDesc;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +11,7 @@ import zagar.Game;
 
 public class PacketEjectMass {
   @NotNull
-  private static final Logger log = LogManager.getLogger(">>>");
+  private static final Logger log = LogManager.getLogger(PacketEjectMass.class);
   private final float dx;
   private final float dy;
 

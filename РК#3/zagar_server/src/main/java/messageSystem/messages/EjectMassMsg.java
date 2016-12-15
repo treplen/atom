@@ -7,7 +7,6 @@ import messageSystem.Address;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
 import model.Player;
-import network.ClientConnectionServer;
 import protocol.CommandEjectMass;
 
 /**

@@ -1,10 +1,6 @@
 package leaderboard;
 
-import javafx.util.Pair;
-
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

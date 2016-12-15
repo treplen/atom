@@ -1,6 +1,5 @@
 package utils;
 
-import mechanics.Mechanics;
 import model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,7 +7,6 @@ import org.jetbrains.annotations.NotNull;
 import ticker.Ticker;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author apomosov
@@ -41,7 +39,7 @@ public class UniformFoodGenerator  implements FoodGenerator {
   @Override
   public void tick(long elapsedNanos) {
 
-    if (field.getFoods().size() < threshold) {
+    if (field.getFoodSet().size() < threshold) {
       Random random = new Random();
       random.nextInt(field.getWidth() - 2);
       random.nextInt(field.getHeight() - 2);
@@ -64,7 +62,7 @@ public class UniformFoodGenerator  implements FoodGenerator {
           virustime = 0;
         }
 
-//      log.info("UniformFoodGenerator ticked, field size now {}", field.getFoods().size());
+//      log.info("UniformFoodGenerator ticked, field size now {}", field.getFoodSet().size());
       //int toGenerate = (int) Math.ceil(foodPerSecond * elapsedNanos / 1_000_000_000.);
     }
   }

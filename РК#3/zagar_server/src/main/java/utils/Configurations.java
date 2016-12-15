@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by svuatoslav on 11/28/16.
  */
-public class Configurations {
+public final class Configurations {
     private static PropertiesReader reader;
 
     static {

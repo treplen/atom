@@ -37,5 +37,5 @@ public abstract class Service extends Thread implements Abonent {
   public Class<? extends Service> getServiceClass()
   {
     return this.getClass();
-  };
+  }
 }
