@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public final class MessageSystem {
   private final static Logger log = LogManager.getLogger(MessageSystem.class);
 
-  private final Map<Address, ConcurrentLinkedQueue<Message>> messages = new HashMap<>();
+  private final Map<Address, ConcurrentLinkedQueue<Message>> messages = new ConcurrentHashMap<>();
   private final @NotNull Map<Class<?>, Service> services = new ConcurrentHashMap<>();
 
 

@@ -64,6 +64,7 @@ import java.util.stream.Stream;
 
       for (Virus virus : gameSession.getField().getViruses()){
         cells[i] = new Cell(-1,-1,true,virus.getMass(),virus.getX(),virus.getY());
+        i++;
       }
 
       for (Map.Entry<Player, Session> connection : ApplicationContext.instance().get(ClientConnections.class).getConnections()) {

@@ -53,6 +53,7 @@ public class PacketReplicate {
     try {
       String msg = JSONHelper.toSerial(new CommandReplicate(food, cells));
       session.getRemote().sendString(msg);
+      CommandReplicate cr = (CommandReplicate) JSONHelper.fromSerial(msg);
     } catch (Exception ex)
     {
       log.error("Failed to send",ex);

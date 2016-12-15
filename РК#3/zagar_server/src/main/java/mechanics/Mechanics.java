@@ -133,7 +133,7 @@ public class Mechanics extends Service implements Tickable {
 
   public void Split (@NotNull Player player, @NotNull CommandSplit commandSplit)
   {
-    player.split(commandSplit.getDx(),commandSplit.getDy());
+    player.split(commandSplit.getDx(),commandSplit.getDy(),2);
     //log.info("{} wants to split (in thread {})",player,Thread.currentThread());
   }
 }

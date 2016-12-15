@@ -28,14 +28,16 @@ public class Player {
   private final CopyOnWriteArraySet<SplitFood> splitFoods = new CopyOnWriteArraySet<>();
 
   private double lastUpdate;
-  private double lastEject;
+  private double lastSplit;
   private boolean joining;
+  private double lastEject;
 
 
   public Player(int id, @NotNull String name) {
     this.id = id;
     this.name = name;
-    lastEject = -1;
+    lastSplit = System.currentTimeMillis();
+    lastEject = System.currentTimeMillis();
     joining = false;
     lastUpdate = System.currentTimeMillis();
     addCell(new PlayerCell(Cell.idGenerator.next(), 0, 0));
@@ -68,7 +70,7 @@ public class Player {
   }
 
   public void move(double x, double y){
-    checkEject();
+    checkSplit();
     DoubleVector centre = null;
     if(joining)
       centre = findCentre();
@@ -96,17 +98,27 @@ public class Player {
           playerCell.getVelocity().add(dCentre);
         }
 
+
+
+      if (new Double(playerCell.getVelocity().getX()).equals(Double.NaN) ||
+              new Double(playerCell.getVelocity().getY()).equals( Double.NaN))
+        playerCell.setVelocity(new DoubleVector(0, 0));
+
+
+
       int newX = (int)(playerCell.getX() + dTime*playerCell.getVelocity().getX());
       int newY = (int)(playerCell.getY() + dTime*playerCell.getVelocity().getY());
 
-        if (newX < 0){
+
+      if (newX <= 0){
           newX = 0;
         }
         if (newX > GameConstants.FIELD_WIDTH)
           newX = GameConstants.FIELD_WIDTH;
 
-        if (newY < 0)
+        if (newY <= 0){
           newY = 0;
+        }
         if (newY > GameConstants.FIELD_HEIGHT)
           newY = GameConstants.FIELD_HEIGHT;
 
@@ -129,7 +141,7 @@ public class Player {
           playerCell.setMass(playerCell.getMass()+food.getMass());
           return true;
         }else {
-          //Eject
+          split(playerCell.getX()+1, playerCell.getY()+1,2);
           return true;
         }
       }
@@ -137,10 +149,10 @@ public class Player {
    return false;
   }
 
-  public void eject(double x, double y){
+  public void split(double x, double y,int count){
     for (PlayerCell playerCell:cells) {
         if(playerCell.getMass() >= GameConstants.MIN_MASS_FOR_EJECT){
-          lastEject = System.currentTimeMillis();
+          lastSplit = System.currentTimeMillis();
           playerCell.setMass(playerCell.getMass()/2);
           PlayerCell newPlayerCell = new PlayerCell(Cell.idGenerator.next(),playerCell.getX(),playerCell.getY());
           newPlayerCell.updateVelocity(x,y);
@@ -158,20 +170,20 @@ public class Player {
     }
   }
 
-  public void checkEject(){
-    if( lastEject != -1 && System.currentTimeMillis() - lastEject >GameConstants.MAX_DISCONNECTING_TIME ){
+  public void checkSplit(){
+    if( lastSplit != -1 && System.currentTimeMillis() - lastSplit >GameConstants.MAX_DISCONNECTING_TIME ){
       PlayerCell mainCell = cells.get(0);
       for(int i = 1;i<cells.size();i++){
         mainCell.setMass(mainCell.getMass() + cells.get(i).getMass());
       }
       cells.clear();
       cells.add(mainCell);
-      lastEject = -1;
+      lastSplit = -1;
       joining = false;
     }
 
-    if( lastEject != -1 &&
-            System.currentTimeMillis() - lastEject > GameConstants.MAX_DISCONNECTING_TIME - GameConstants.JOINING_TIME)
+    if( lastSplit != -1 &&
+            System.currentTimeMillis() - lastSplit > GameConstants.MAX_DISCONNECTING_TIME - GameConstants.JOINING_TIME)
       joining = true;
   }
 
@@ -184,7 +196,10 @@ public class Player {
     return  doubleVector;
   }
 
-  public void split(double x, double y){
+  public void eject(double x, double y){
+    if(System.currentTimeMillis() - lastEject < GameConstants.RELOAD_EJECT_TIME)
+      return;
+
     for (PlayerCell playerCell:cells) {
       if (playerCell.getMass() < GameConstants.MIN_MASS_TO_SPLIT)
         continue;
@@ -208,7 +223,7 @@ public class Player {
       dv.normalize();
       splitFood.setVelocity(dv);
       splitFoods.add(splitFood);
-      System.out.println(splitFoods.size());
+      lastEject = System.currentTimeMillis();
     }
   }
 

@@ -1,9 +1,7 @@
 package utils;
 
 import mechanics.Mechanics;
-import model.Field;
-import model.Food;
-import model.PlayerCell;
+import model.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
@@ -23,11 +21,13 @@ public class UniformFoodGenerator  implements FoodGenerator {
   private final Field field;
   private final int threshold;
   private final double foodPerSecond;
+  public int virustime;
 
   public UniformFoodGenerator(@NotNull Field field, double foodPerSecond, int threshold) {
     this.field = field;
     this.threshold = threshold;
     this.foodPerSecond = foodPerSecond;
+    this.virustime=0;
   }
 
   public void run() {
@@ -51,6 +51,19 @@ public class UniformFoodGenerator  implements FoodGenerator {
               random.nextInt(field.getHeight() - 2)
       );
       field.addFood(food);
+
+        virustime++;
+        if (virustime == 10) {
+          if (field.getViruses().size() < GameConstants.NUMBER_OF_VIRUSES) {
+            Virus virus = new Virus(
+                    random.nextInt(field.getWidth() - 2),
+                    random.nextInt(field.getHeight() - 2)
+            );
+            field.addVirus(virus);
+          }
+          virustime = 0;
+        }
+
 //      log.info("UniformFoodGenerator ticked, field size now {}", field.getFoods().size());
       //int toGenerate = (int) Math.ceil(foodPerSecond * elapsedNanos / 1_000_000_000.);
     }

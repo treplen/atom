@@ -3,12 +3,14 @@ package model;
 import utils.IDGenerator;
 import utils.SequentialIDGenerator;
 
+import javax.swing.border.MatteBorder;
+
 /**
  * @author apomosov
  */
 public class PlayerCell extends Cell {
   private final int id;
-  private DoubleVector velocity;
+  private DoubleVector velocity = new DoubleVector();
   private boolean ungovernable;
   private double becameUngovernable;
 
@@ -40,16 +42,29 @@ public class PlayerCell extends Cell {
 
     double dx = x-getX();
     double dy = y-getY();
+
+    if (Math.abs(dx) <= getMass()/5 && Math.abs(dy) <= getMass()/5){
+      setVelocity(new DoubleVector(0,0));
+      return;
+    }
+
     double r = Math.sqrt(dx*dx + dy*dy);
 
     dx = dx / r;
     dy = dy / r;
+
+
 
     setVelocity(
             new DoubleVector(
                     dx * (0.5 + 1/getMass()),
                     dy * (0.5 + 1/getMass()))
     );
+
+    if (new Double(getVelocity().getX()).equals(Double.NaN) ||
+            new Double(getVelocity().getY()).equals( Double.NaN))
+                setVelocity(new DoubleVector(0, 0));
+
   }
 
   public boolean pushOff(PlayerCell playerCell){
