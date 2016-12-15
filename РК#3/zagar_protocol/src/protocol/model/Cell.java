@@ -45,4 +45,12 @@ public final class Cell implements Serializable {
   public float getSize() {
     return size;
   }
+
+  @Override
+  public String toString(){
+    StringBuilder build = new StringBuilder();
+    build.append("ID ").append(cellId).append("VIRUS ").append(isVirus).append("SIZE").append(size);
+    return build.toString();
+  }
+
 }

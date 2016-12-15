@@ -31,4 +31,11 @@ public final class Food implements Serializable{
     return this.y;
   }
 
+  @Override
+  public String toString(){
+    StringBuilder build = new StringBuilder();
+    build.append("ID FOOD");
+    return build.toString();
+  }
+
 }
