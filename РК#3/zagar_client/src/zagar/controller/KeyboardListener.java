@@ -7,6 +7,7 @@ import java.io.IOException;
 import zagar.network.packets.PacketEjectMass;
 import org.jetbrains.annotations.NotNull;
 import zagar.Game;
+import zagar.network.packets.PacketSplit;
 
 public class KeyboardListener implements KeyListener {
   @Override
@@ -14,7 +15,11 @@ public class KeyboardListener implements KeyListener {
       if (Game.socket != null && Game.socket.session != null) {
         if (Game.socket.session.isOpen()) {
           if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            Game.rapidSplit = true;
+            try {
+              new PacketSplit(Game.followX,Game.followY).write();
+            } catch (IOException e1) {
+              e1.printStackTrace();
+            }
           }
           if (e.getKeyCode() == KeyEvent.VK_W) {
             try {
@@ -22,10 +27,6 @@ public class KeyboardListener implements KeyListener {
             } catch (IOException e1) {
               e1.printStackTrace();
             }
-            Game.rapidEject = true;
-          }
-          if (e.getKeyCode() == KeyEvent.VK_T) {
-            Game.rapidEject = true;
           }
           if (e.getKeyCode() == KeyEvent.VK_R) {
             if (Game.player.size() == 0) {
@@ -41,7 +42,7 @@ public class KeyboardListener implements KeyListener {
     if (Game.socket != null && Game.socket.session != null) {
       if (Game.socket.session.isOpen()) {
         if (e.getKeyCode() == KeyEvent.VK_T) {
-          Game.rapidEject = false;
+         ;
         }
       }
     }
