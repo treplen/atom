@@ -7,7 +7,13 @@ import ticker.Tickable;
  * Created by svuatoslav on 11/28/16.
  */
 public abstract class Leaderboard extends Service{
-    Leaderboard() {super("leaderboard");}
+    Leaderboard() {
+        super("leaderboard");
+        try {
+            Class.forName("leaderboard.LeaderboardState");
+        } catch (ClassNotFoundException ignored) {}
+    }
+
     public abstract void update();
 
     @Override
