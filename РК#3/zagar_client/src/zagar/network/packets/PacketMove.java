@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
 
+import org.eclipse.jetty.websocket.api.WebSocketException;
 import org.jetbrains.annotations.NotNull;
 import protocol.CommandMove;
 import zagar.Game;
@@ -26,6 +27,6 @@ public class PacketMove {
   public void write() throws IOException {
     String msg = JSONHelper.toSerial(new CommandMove(x, y));
     log.info("Sending [" + msg + "]");
-    Game.socket.session.getRemote().sendString(msg);
+      Game.socket.session.getRemote().sendString(msg);
   }
 }
