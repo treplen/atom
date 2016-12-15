@@ -24,8 +24,11 @@ public class PacketHandlerMove {
     CommandMove commandMove;
     try {
       commandMove = (CommandMove) JSONHelper.fromSerial(json);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (IOException IOex ){
+      IOex.printStackTrace();
+      return;
+    }catch(ClassNotFoundException CNFex){
+      CNFex.printStackTrace();
       return;
     }
     MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);

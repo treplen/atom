@@ -14,6 +14,7 @@ import protocol.CommandEjectMass;
 import utils.JSONDeserializationException;
 import utils.JSONHelper;
 
+import java.io.IOException;
 import java.util.Map;
 
 public class PacketHandlerEjectMass {
@@ -21,8 +22,11 @@ public class PacketHandlerEjectMass {
     CommandEjectMass commandEjectMass;
     try {
       commandEjectMass = (CommandEjectMass) JSONHelper.fromSerial(json);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (IOException IOex ){
+      IOex.printStackTrace();
+      return;
+    }catch(ClassNotFoundException CNFex){
+      CNFex.printStackTrace();
       return;
     }
     MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);

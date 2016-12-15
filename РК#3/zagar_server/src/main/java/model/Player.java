@@ -1,6 +1,9 @@
 package model;
 
 import main.ApplicationContext;
+import mechanics.Mechanics;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import utils.EatComparator;
 import utils.IDGenerator;
@@ -18,6 +21,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 public class Player {
   public static final IDGenerator idGenerator = new SequentialIDGenerator();
   private final int id;
+  @NotNull
+  private final static Logger log = LogManager.getLogger(Player.class);
   @NotNull
   private String name;
   @NotNull
@@ -139,9 +144,14 @@ public class Player {
               ) {
         if(food.getClass() != Virus.class){
           playerCell.setMass(playerCell.getMass()+food.getMass());
+          if (food.getClass() == Food.class)
+            log.info("Player {} just now is eat the food",this.getId());
+          else
+            log.info("Player {} just now is eat the other player",this.getId());
           return true;
         }else {
           split(playerCell.getX()+1, playerCell.getY()+1,2);
+          log.info("Player {} just now is eat the virus",this.getId());
           return true;
         }
       }
@@ -180,6 +190,7 @@ public class Player {
       cells.add(mainCell);
       lastSplit = -1;
       joining = false;
+      log.info("Player {} just now is merged",this.getId());
     }
 
     if( lastSplit != -1 &&
