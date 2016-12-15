@@ -1,5 +1,6 @@
 package zagar.network.handlers;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Collections;
 
@@ -25,8 +26,11 @@ public class PacketHandlerReplicate {
       commandReplicate = (CommandReplicate) JSONHelper.fromSerial(json);
       //System.out.println(commandReplicate.getCells()[0]);
      // System.out.println("PIRATE3");
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (IOException IOex ){
+      IOex.printStackTrace();
+      return;
+    }catch(ClassNotFoundException CNFex){
+      CNFex.printStackTrace();
       return;
     }
     Cell[] gameCells = new Cell[commandReplicate.getCells().length];

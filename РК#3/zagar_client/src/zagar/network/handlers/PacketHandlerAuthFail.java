@@ -7,13 +7,18 @@ import zagar.util.JSONHelper;
 import zagar.Game;
 import zagar.util.Reporter;
 
+import java.io.IOException;
+
 public class PacketHandlerAuthFail {
   public PacketHandlerAuthFail(@NotNull String json) {
     CommandAuthFail commandAuthFail;
     try {
       commandAuthFail = (CommandAuthFail) JSONHelper.fromSerial(json);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (IOException IOex ){
+      IOex.printStackTrace();
+      return;
+    }catch(ClassNotFoundException CNFex){
+      CNFex.printStackTrace();
       return;
     }
     Game.state = Game.GameState.NOT_AUTHORIZED;
