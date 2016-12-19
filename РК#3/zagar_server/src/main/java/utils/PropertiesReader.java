@@ -1,6 +1,11 @@
 package utils;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
@@ -13,10 +18,22 @@ import java.util.Properties;
 public class PropertiesReader {
     private final Properties properties;
 
-    public PropertiesReader(String propertiesFile) throws IOException {
-        InputStream in = new FileInputStream(propertiesFile);
+    @NotNull
+    private final static Logger log = LogManager.getLogger(PropertiesReader.class);
+    public PropertiesReader(String propertiesFile) {
+        InputStream in = null;
+        try {
+            in = new FileInputStream(propertiesFile);
+        } catch (FileNotFoundException e) {
+            log.error("Failed to open config file",e);
+            in=null;
+        }
         properties = new Properties();
-        properties.load(in);
+        try {
+            properties.load(in);
+        } catch (IOException e) {
+            log.error("Failed to read config file",e);
+        }
     }
 
     public int getIntProperty(String name)
