@@ -34,7 +34,7 @@ public final class LeaderboardState {
                     best[i] = record.getKey() + " " + record.getValue();
                 }
             }
+            return best;
         }
-        return best;
     }
 }
