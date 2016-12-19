@@ -10,6 +10,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 public class Cell {
   public double x, y;
@@ -41,6 +42,21 @@ public class Cell {
     this.yRender = this.y;
     this.sizeRender = this.size;
     this.mass = Math.round((this.size * this.size) / 100);
+      if(!isVirus) {
+          Random random = new Random(id);
+          r = random.nextInt() % 256;
+          g = random.nextInt() % 256;
+          b = random.nextInt() % 256;
+          if (r < 0) {
+              this.r = r + 256;
+          }
+          if (g < 0) {
+              this.g = g + 256;
+          }
+          if (b < 0) {
+              this.b = b + 256;
+          }
+      }
   }
 
   public void tick() {
