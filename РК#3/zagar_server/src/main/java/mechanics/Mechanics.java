@@ -3,6 +3,7 @@ package mechanics;
 import main.ApplicationContext;
 import main.Service;
 import matchmaker.MatchMaker;
+import matchmaker.MatchMakerImpl;
 import messageSystem.Message;
 import messageSystem.MessageSystem;
 import messageSystem.messages.ReplicateMsg;
@@ -33,7 +34,7 @@ public class Mechanics extends Service implements Tickable {
     try {
       Thread.sleep(2_000);
     }catch (Exception ignored){}
-    Ticker ticker = new Ticker(this, 70);
+    Ticker ticker = new Ticker(this,50);
     ticker.loop();
   }
 
@@ -45,7 +46,7 @@ public class Mechanics extends Service implements Tickable {
       log.error(e);
       Thread.currentThread().interrupt();
     }
-
+    ApplicationContext.instance().get(MatchMaker.class).checkUnactive();
     eatAll();
     splitAll();
     //   log.info("Start replication");
