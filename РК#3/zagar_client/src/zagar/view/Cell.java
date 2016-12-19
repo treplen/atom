@@ -40,13 +40,13 @@ public class Cell {
     this.xRender = this.x;
     this.yRender = this.y;
     this.sizeRender = this.size;
+    this.mass = Math.round((this.size * this.size) / 100);
   }
 
   public void tick() {
     this.xRender -= (this.xRender - x) / 5f;
     this.yRender -= (this.yRender - y) / 5f;
     this.sizeRender -= (this.sizeRender - size) / 9f;
-    this.mass = Math.round((this.sizeRender * this.sizeRender) / 100);
     //this.rotation += (1f / (Math.max(this.mass, 20) * 2));
 
     if (Game.cellNames.containsKey(this.id)) {
@@ -110,7 +110,6 @@ public class Cell {
         g.fillPolygon(hexagon);
       }
 
-      this.mass = Math.round((this.sizeRender * this.sizeRender) / 100);
       if (this.name.length() > 0 || (this.mass > 30 && !this.virus)) {
         Font font = Main.frame.canvas.fontCells;
         BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
