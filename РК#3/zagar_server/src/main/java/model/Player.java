@@ -172,6 +172,7 @@ public class Player {
         if(playerCell.getMass() >= GameConstants.MIN_MASS_FOR_EJECT){
           lastSplit = System.currentTimeMillis();
           playerCell.setMass(playerCell.getMass()/2);
+
           PlayerCell newPlayerCell = new PlayerCell(Cell.idGenerator.next(),playerCell.getX(),playerCell.getY());
           newPlayerCell.updateVelocity(x,y);
           newPlayerCell.setMass(playerCell.getMass());

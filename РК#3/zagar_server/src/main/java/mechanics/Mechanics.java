@@ -33,14 +33,14 @@ public class Mechanics extends Service implements Tickable {
     try {
       Thread.sleep(2_000);
     }catch (Exception ignored){}
-    Ticker ticker = new Ticker(this, 50);
+    Ticker ticker = new Ticker(this, 100);
     ticker.loop();
   }
 
   @Override
   public void tick(long elapsedNanos) {
     try {
-      Thread.sleep(20);
+      Thread.sleep(5);
     } catch (InterruptedException e) {
       log.error(e);
       Thread.currentThread().interrupt();
@@ -110,8 +110,10 @@ public class Mechanics extends Service implements Tickable {
       //}
 
       for (Player player : gameSession.getPlayers())
-        if (player.isRespawn())
+        if (player.isRespawn()) {
           gameSession.respawn(player);
+          player.setRespawn(false);
+      }
 
     }
   }

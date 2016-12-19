@@ -3,10 +3,7 @@ package replication;
 import leaderboard.LeaderboardState;
 import main.ApplicationContext;
 import matchmaker.MatchMaker;
-import model.GameSession;
-import model.Player;
-import model.PlayerCell;
-import model.Virus;
+import model.*;
 import network.ClientConnections;
 import network.handlers.PacketHandlerAuth;
 import network.packets.PacketLeaderBoard;
@@ -18,7 +15,11 @@ import protocol.model.Cell;
 import protocol.model.Food;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * @author Alpi
@@ -30,41 +31,45 @@ import java.util.Map;
   public void replicate() {
     for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
 
+      Set<model.Food> foodSet = new CopyOnWriteArraySet<>(gameSession.getField().getFoodSet());
+      Set<SplitFood> splitFoodSet = new CopyOnWriteArraySet<>(gameSession.getField().getSplitFoodSet());
+      List<Player> playerList = new CopyOnWriteArrayList<> (gameSession.getPlayers());
+      List<model.Virus> virusList= new CopyOnWriteArrayList<>(gameSession.getField().getViruses());
+
       int numberOfFoodsInSession =0;
-      numberOfFoodsInSession += gameSession.getField().getFoodSet().size();
-      numberOfFoodsInSession += gameSession.getField().getSplitFoodSet().size();
+      numberOfFoodsInSession += foodSet.size();
+      numberOfFoodsInSession += splitFoodSet.size();
       Food[] food = new Food[numberOfFoodsInSession];
 
       int i = 0;
-      for (model.Food foods : gameSession.getField().getFoodSet())  {
+      for (model.Food foods : foodSet)  {
         food[i] = new Food(foods.getX(),foods.getY());
         i++;
       }
 
-      for (model.SplitFood foods : gameSession.getField().getSplitFoodSet())  {
+      for (model.SplitFood foods : splitFoodSet)  {
         food[i] = new Food(foods.getX(),foods.getY());
         i++;
       }
 
       int numberOfCellsInSession = 0;
 
-      numberOfCellsInSession+=gameSession.getField().getViruses().size();
+      numberOfCellsInSession+=virusList.size();
 
-      for (Player player : gameSession.getPlayers()) {
+      for (Player player : playerList) {
         numberOfCellsInSession += player.getCells().size();
       }
 
       Cell[] cells = new Cell[numberOfCellsInSession];
       i=0;
-      for (Player player : gameSession.getPlayers()) {
+      for (Player player : playerList) {
         for (PlayerCell playerCell : player.getCells()) {
           cells[i] = new Cell(player.getId(), player.getId(), false, playerCell.getMass(), playerCell.getX(), playerCell.getY());
           i++;
         }
       }
 
-
-      for (Virus virus : gameSession.getField().getViruses()){
+      for (Virus virus : virusList){
         cells[i] = new Cell(-1,-1,true,virus.getMass(),virus.getX(),virus.getY());
         i++;
       }
