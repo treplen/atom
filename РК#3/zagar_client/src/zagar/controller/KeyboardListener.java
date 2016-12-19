@@ -20,18 +20,10 @@ public class KeyboardListener implements KeyListener {
       if (Game.socket != null && Game.socket.session != null) {
         if (Game.socket.session.isOpen()) {
           if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            try {
-              new PacketSplit(Game.followX,Game.followY).write();
-            } catch (IOException e1) {
-              e1.printStackTrace();
-            }
+            Game.splitting = true;
           }
           if (e.getKeyCode() == KeyEvent.VK_W) {
-            try {
-              new PacketEjectMass(Game.followX,Game.followY).write();
-            } catch (IOException e1) {
-              log.error("Failed to send eject mass packet",e1);
-            }
+            Game.ejecting = true;
           }
           if (e.getKeyCode() == KeyEvent.VK_R) {
             if (Game.player.size() == 0) {
