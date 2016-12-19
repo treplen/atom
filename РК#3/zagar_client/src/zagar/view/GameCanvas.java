@@ -70,7 +70,7 @@ public class GameCanvas extends JPanel {
       if(Double.isInfinite(dx))
         dx=GameFrame.size.width;
       if(Double.isInfinite(dy))
-        dx=GameFrame.size.height;
+        dy=GameFrame.size.height;
       for (double i = ((int)((avgX - dx)/100))*100; i < (avgX + dx); i +=100) {
         int x = (int) ((i - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
         g.drawLine( x, 0, x, GameFrame.size.height);
