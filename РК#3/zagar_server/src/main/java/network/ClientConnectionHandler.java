@@ -1,6 +1,8 @@
 package network;
 
 import main.ApplicationContext;
+import matchmaker.MatchMaker;
+import model.GameSession;
 import model.Player;
 import network.handlers.*;
 import org.apache.logging.log4j.LogManager;
@@ -37,6 +39,11 @@ public class ClientConnectionHandler extends WebSocketAdapter {
     ClientConnections clientConnections = ApplicationContext.instance().get(ClientConnections.class);
     for (Map.Entry<Player, Session> connection : clientConnections.getConnections()) {
       if(connection.getValue().equals(getSession())){
+        for (GameSession gameSession : ApplicationContext.instance().get(MatchMaker.class).getActiveGameSessions()) {
+          if (gameSession.getPlayers().contains(connection.getKey())){
+            gameSession.leave(connection.getKey());
+          }
+        }
         clientConnections.removeConnection(connection.getKey());
       }
     }

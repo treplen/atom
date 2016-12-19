@@ -65,19 +65,21 @@ public class GameCanvas extends JPanel {
       avgY /= Game.player.size();
 
       g.setStroke(new BasicStroke(2));
-      double dx = (GameFrame.size.width / 2) / Game.zoom;
-      double dy = (GameFrame.size.height / 2) / Game.zoom;
-      if(Double.isInfinite(dx))
-        dx=GameFrame.size.width;
-      if(Double.isInfinite(dy))
-        dy=GameFrame.size.height;
-      for (double i = ((int)((avgX - dx)/100))*100; i < (avgX + dx); i +=100) {
-        int x = (int) ((i - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
-        g.drawLine( x, 0, x, GameFrame.size.height);
-      }
-      for (double i = ((int)((avgY - dy)/100))*100; i < (avgY + dy); i +=100) {
-        int y = (int) ((i - avgY) * Game.zoom) + GameFrame.size.height / 2 - size / 2;
-        g.drawLine(0,  y,  GameFrame.size.width, y);
+      if(Double.isFinite(avgX)&&Double.isFinite(avgY)) {
+        double dx = (GameFrame.size.width / 2) / Game.zoom;
+        double dy = (GameFrame.size.height / 2) / Game.zoom;
+        if (Double.isInfinite(dx))
+          dx = GameFrame.size.width;
+        if (Double.isInfinite(dy))
+          dy = GameFrame.size.height;
+        for (double i = ((int) ((avgX - dx) / 100)) * 100; i < (avgX + dx); i += 100) {
+          int x = (int) ((i - avgX) * Game.zoom) + GameFrame.size.width / 2 - size / 2;
+          g.drawLine(x, 0, x, GameFrame.size.height);
+        }
+        for (double i = ((int) ((avgY - dy) / 100)) * 100; i < (avgY + dy); i += 100) {
+          int y = (int) ((i - avgY) * Game.zoom) + GameFrame.size.height / 2 - size / 2;
+          g.drawLine(0, y, GameFrame.size.width, y);
+        }
       }
     }
     g.setFont(fontCells);

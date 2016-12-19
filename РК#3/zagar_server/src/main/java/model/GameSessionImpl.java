@@ -29,6 +29,8 @@ public class GameSessionImpl implements GameSession {
     foodGenerator.run();
   }
 
+
+
   @Override
   public void join(@NotNull Player player) {
     players.add(player);
@@ -62,4 +64,5 @@ public class GameSessionImpl implements GameSession {
         "id=" + id +
         '}';
   }
+
 }
