@@ -42,7 +42,7 @@ public class LeaderboardImpl extends Leaderboard implements Tickable {
         }
 
         //log.info("Start leaderboard replication");
-        @org.jetbrains.annotations.NotNull MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
+        MessageSystem messageSystem = ApplicationContext.instance().get(MessageSystem.class);
         Message message = new SendLeaderboardMsg(this.getAddress());
         messageSystem.sendMessage(message);
 

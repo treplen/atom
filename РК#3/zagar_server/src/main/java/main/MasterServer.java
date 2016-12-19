@@ -40,6 +40,7 @@ public class MasterServer {
     }
     catch (Exception e) {
       log.error("Failed to add an application context class",e);
+      System.exit(0);
       return;
     }
 

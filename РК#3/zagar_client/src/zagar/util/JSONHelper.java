@@ -57,7 +57,7 @@ public class JSONHelper {
       return o;
     }catch(Exception e){
       log.error("Failed to deserialize object",e);
-      return new Object();
+      return null;
     }
   }
 
