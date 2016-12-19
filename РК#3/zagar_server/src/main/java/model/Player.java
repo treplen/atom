@@ -22,12 +22,12 @@ public class Player {
   @NotNull
   private String name;
   @NotNull
-  private final List<PlayerCell> cells = new CopyOnWriteArrayList<>();
+  private  List<PlayerCell> cells = new CopyOnWriteArrayList<>();
   @NotNull
   private
   EatComparator eatComparator = new EatComparator();
   @NotNull
-  private final CopyOnWriteArraySet<SplitFood> splitFoodSet = new CopyOnWriteArraySet<>();
+  private CopyOnWriteArraySet<SplitFood> splitFoodSet = new CopyOnWriteArraySet<>();
 
   private double lastUpdate;
   private double lastSplit;
@@ -46,7 +46,10 @@ public class Player {
     addCell(new PlayerCell(Cell.idGenerator.next(), 0, 0));
   }
 
-
+  public void cloneLists(){
+    cells = new CopyOnWriteArrayList<>(cells);
+    splitFoodSet = new CopyOnWriteArraySet<>(splitFoodSet);
+  }
 
   public void addCell(@NotNull PlayerCell cell) {
     cells.add(cell);

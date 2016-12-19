@@ -15,6 +15,7 @@ import protocol.model.Cell;
 import protocol.model.Food;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,48 +37,48 @@ import java.util.concurrent.CopyOnWriteArraySet;
       List<Player> playerList = new CopyOnWriteArrayList<> (gameSession.getPlayers());
       List<model.Virus> virusList= new CopyOnWriteArrayList<>(gameSession.getField().getViruses());
 
-      int numberOfFoodsInSession =0;
-      numberOfFoodsInSession += foodSet.size();
-      numberOfFoodsInSession += splitFoodSet.size();
-      Food[] food = new Food[numberOfFoodsInSession];
+
+      List<Food> food = new ArrayList<>();
+
+      for (model.Food foods : foodSet)
+        food.add(new Food(foods.getX(),foods.getY()));
+
+
+      for (model.SplitFood foods : splitFoodSet)
+        food.add(new Food(foods.getX(),foods.getY()));
+
+      List<Cell> cells = new ArrayList<>();
+
+      for (Player player : playerList)
+        for (PlayerCell playerCell : player.getCells())
+          cells.add(new Cell(player.getId(), player.getId(),
+                  false, playerCell.getMass(), playerCell.getX(), playerCell.getY()));
+
+      for (Virus virus : virusList)
+        cells.add(new Cell(-1,-1,true,virus.getMass(),virus.getX(),virus.getY()));
+
+      Food[] foodMas = new Food[food.size()];
+      Cell[] cellMas = new Cell[cells.size()];
 
       int i = 0;
-      for (model.Food foods : foodSet)  {
-        food[i] = new Food(foods.getX(),foods.getY());
+
+      for (Food food1 : food) {
+        foodMas[i] = new Food(food1);
         i++;
       }
 
-      for (model.SplitFood foods : splitFoodSet)  {
-        food[i] = new Food(foods.getX(),foods.getY());
-        i++;
-      }
+      i = 0;
 
-      int numberOfCellsInSession = 0;
-
-      numberOfCellsInSession+=virusList.size();
-
-      for (Player player : playerList) {
-        numberOfCellsInSession += player.getCells().size();
-      }
-
-      Cell[] cells = new Cell[numberOfCellsInSession];
-      i=0;
-      for (Player player : playerList) {
-        for (PlayerCell playerCell : player.getCells()) {
-          cells[i] = new Cell(player.getId(), player.getId(), false, playerCell.getMass(), playerCell.getX(), playerCell.getY());
-          i++;
-        }
-      }
-
-      for (Virus virus : virusList){
-        cells[i] = new Cell(-1,-1,true,virus.getMass(),virus.getX(),virus.getY());
+      for (Cell cell1 : cells) {
+        cellMas[i] = new Cell(cell1);
         i++;
       }
 
       for (Map.Entry<Player, Session> connection : ApplicationContext.instance().get(ClientConnections.class).getConnections()) {
         if (gameSession.getPlayers().contains(connection.getKey()))
-          new PacketReplicate(cells, food).write(connection.getValue());
+          new PacketReplicate(cellMas, foodMas).write(connection.getValue());
       }
+
     }
   }
 
