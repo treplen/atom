@@ -47,6 +47,10 @@ public class MatchMakerImpl implements MatchMaker {
   private
   @NotNull
   GameSession createNewGame() {
+    for (GameSession activeGameSession : activeGameSessions) {
+      if (activeGameSession.getPlayers().size()<GameConstants.MAX_PLAYERS_IN_SESSION)
+        return activeGameSession;
+    }
     Field field = new Field();
     UniformFoodGenerator foodGenerator = new UniformFoodGenerator(field, GameConstants.FOOD_PER_SECOND_GENERATION, GameConstants.MAX_FOOD_ON_FIELD);
     return new GameSessionImpl(field, foodGenerator, new RandomPlayerPlacer(field));

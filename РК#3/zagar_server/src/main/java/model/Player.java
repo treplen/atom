@@ -33,6 +33,7 @@ public class Player {
   private double lastSplit;
   private boolean joining;
   private double lastEject;
+  private boolean respawn = false;
 
 
   public Player(int id, @NotNull String name) {
@@ -44,6 +45,8 @@ public class Player {
     lastUpdate = System.currentTimeMillis();
     addCell(new PlayerCell(Cell.idGenerator.next(), 0, 0));
   }
+
+
 
   public void addCell(@NotNull PlayerCell cell) {
     cells.add(cell);
@@ -69,6 +72,14 @@ public class Player {
 
   public int getId() {
     return id;
+  }
+
+  public boolean isRespawn(){
+    return respawn;
+  }
+
+  public void setRespawn(boolean b){
+    this.respawn = b;
   }
 
   public void move(double x, double y){
@@ -142,13 +153,13 @@ public class Player {
         if(food.getClass() != Virus.class){
           playerCell.setMass(playerCell.getMass()+food.getMass());
           if (food.getClass() == Food.class)
-            log.info("Player {} just now is eat the food",this.getId());
+            log.info("Player {} just now is eat the food in thread {}",this.getName(),Thread.currentThread());
           else
-            log.info("Player {} just now is eat the other player",this.getId());
+            log.info("Player {} just now is eat the other player in thread {}",this.getName(), Thread.currentThread());
           return true;
         }else {
           split(playerCell.getX()+1, playerCell.getY()+1,2);
-          log.info("Player {} just now is eat the virus",this.getId());
+          log.info("Player {} just now is eat the virus in thread {}",this.getName(), Thread.currentThread());
           return true;
         }
       }
@@ -246,5 +257,13 @@ public class Player {
     return "Player{" +
         "name='" + name + '\'' +
         '}';
+  }
+
+  public void startRespawn() {
+    lastSplit = System.currentTimeMillis();
+    lastEject = System.currentTimeMillis();
+    joining = false;
+    lastUpdate = System.currentTimeMillis();
+    addCell(new PlayerCell(Cell.idGenerator.next(), 0, 0));
   }
 }
