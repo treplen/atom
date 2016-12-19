@@ -21,6 +21,7 @@ import zagar.network.ServerConnectionSocket;
 import zagar.network.packets.PacketMove;
 import zagar.network.packets.PacketEjectMass;
 import org.jetbrains.annotations.NotNull;
+import zagar.network.packets.PacketRespawn;
 import zagar.network.packets.PacketSplit;
 import zagar.util.Reporter;
 import zagar.view.Cell;
@@ -168,6 +169,7 @@ public class Game {
       }
       if (Game.player.size() == 0) {
         if (socket.session.isOpen() && spawnPlayer == -1) {
+          //death massage
           score = 0;
           Game.player.clear();
           Game.cells = new Cell[Game.cells.length];
@@ -278,6 +280,7 @@ public class Game {
     if (spawnPlayer == -1) {
       spawnPlayer = 100;
     }
+    new PacketRespawn();
   }
 
   private enum AuthOption {
