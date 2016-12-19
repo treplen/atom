@@ -9,6 +9,11 @@ public final class Food implements Serializable{
   private int x;
   private int y;
 
+  public Food(Food food){
+    this.x=food.x;
+    this.y=food.y;
+  }
+
   public Food(int x, int y){
     this.x=x;
     this.y=y;
