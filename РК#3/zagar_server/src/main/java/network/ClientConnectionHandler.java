@@ -49,7 +49,7 @@ public class ClientConnectionHandler extends WebSocketAdapter {
   @Override
   public void onWebSocketError(@NotNull Throwable cause) {
     super.onWebSocketError(cause);
-    cause.printStackTrace(System.err);
+    log.error("Web socket error",cause,System.err);
   }
 
   public void handlePacket(@NotNull String msg) {

@@ -4,11 +4,16 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import zagar.GameThread;
 import zagar.network.packets.PacketEjectMass;
 import org.jetbrains.annotations.NotNull;
 import zagar.Game;
 
 public class KeyboardListener implements KeyListener {
+  @NotNull
+  private static final Logger log = LogManager.getLogger(KeyboardListener.class);
   @Override
   public void keyPressed(@NotNull KeyEvent e) {
       if (Game.socket != null && Game.socket.session != null) {
@@ -20,7 +25,7 @@ public class KeyboardListener implements KeyListener {
             try {
               new PacketEjectMass(Game.followX,Game.followY).write();
             } catch (IOException e1) {
-              e1.printStackTrace();
+              log.error("Failed to send eject mass packet",e1);
             }
             Game.rapidEject = true;
           }

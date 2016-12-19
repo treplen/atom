@@ -89,7 +89,7 @@ public class Game {
         log.info("Trying to connect <" + gameServerUrl + ">");
         socket.awaitClose(7, TimeUnit.DAYS);
       } catch (Throwable t) {
-        t.printStackTrace();
+        log.error("Failed to connect to client server",t);
       }
     }).start();
   }

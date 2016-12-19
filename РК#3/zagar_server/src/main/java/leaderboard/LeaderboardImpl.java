@@ -39,7 +39,6 @@ public class LeaderboardImpl extends Leaderboard implements Tickable {
         } catch (InterruptedException e) {
             log.error(e);
             Thread.currentThread().interrupt();
-            e.printStackTrace();
         }
 
         //log.info("Start leaderboard replication");
