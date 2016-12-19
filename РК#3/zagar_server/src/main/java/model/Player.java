@@ -126,17 +126,31 @@ public class Player {
       int newY = (int)(playerCell.getY() + dTime*playerCell.getVelocity().getY());
 
 
+
       if (newX <= 0){
-          newX = 0;
+        if (playerCell.getUngovernable())
+            playerCell.setVelocity(DoubleVector.zero());
+        newX = 0;
         }
-        if (newX > GameConstants.FIELD_WIDTH)
+        if (newX > GameConstants.FIELD_WIDTH) {
+          if (playerCell.getUngovernable())
+            playerCell.setVelocity(DoubleVector.zero());
           newX = GameConstants.FIELD_WIDTH;
+        }
 
         if (newY <= 0){
+          if (playerCell.getUngovernable())
+            playerCell.setVelocity(DoubleVector.zero());
+
           newY = 0;
         }
-        if (newY > GameConstants.FIELD_HEIGHT)
+
+        if (newY > GameConstants.FIELD_HEIGHT) {
+          if (playerCell.getUngovernable())
+            playerCell.setVelocity(DoubleVector.zero());
+
           newY = GameConstants.FIELD_HEIGHT;
+        }
 
         playerCell.setX(newX);
         playerCell.setY(newY);
@@ -161,7 +175,7 @@ public class Player {
             log.info("Player {} just now is eat the other player in thread {}",this.getName(), Thread.currentThread());
           return true;
         }else {
-          split(playerCell.getX()+1, playerCell.getY()+1,2);
+          virusSplit(playerCell);
           log.info("Player {} just now is eat the virus in thread {}",this.getName(), Thread.currentThread());
           return true;
         }
@@ -170,21 +184,78 @@ public class Player {
    return false;
   }
 
-  public void split(double x, double y,int count){
+  private void virusSplit(PlayerCell playerCell){
+
+    lastSplit = System.currentTimeMillis();
+    int newMass = playerCell.getMass()/8;
+
+
+      for  (int i =0;i <8;i++) {
+      float x = 0;
+      float y = 0;
+      PlayerCell newPlayerCell = new PlayerCell(Cell.idGenerator.next(),playerCell.getX(),playerCell.getY());
+
+      switch (i) {
+        case 0:
+          x = newPlayerCell.getX()+5000;
+          y = newPlayerCell.getY()+5000;
+          break;
+        case 1:
+          x = newPlayerCell.getX()+5000;
+          y = newPlayerCell.getY()-5000;
+          break;
+        case 2:
+          x = newPlayerCell.getX()-5000;
+          y = newPlayerCell.getY()+ 5000;
+          break;
+        case 3:
+          x = newPlayerCell.getX()-5000;
+          y = newPlayerCell.getY()-5000;
+          break;
+        case 4:
+          x = newPlayerCell.getX()+2500;
+          y = newPlayerCell.getY();
+          break;
+        case 5:
+          x = newPlayerCell.getX();
+          y = newPlayerCell.getY()-2500;
+          break;
+        case 6:
+          x = newPlayerCell.getX()-2500;
+          y = newPlayerCell.getY();
+          break;
+        case 7:
+          x = newPlayerCell.getX();
+          y = newPlayerCell.getY()+2500;
+          break;
+      }
+
+      newPlayerCell.setMass(newMass);
+      newPlayerCell.updateVelocity(x,y);
+
+
+      newPlayerCell.getVelocity().multi(2);
+
+      newPlayerCell.setUngovernable(true);
+      addCell(newPlayerCell);
+    }
+
+    cells.remove(playerCell);
+  }
+
+  public void split(double x, double y){
     for (PlayerCell playerCell:cells) {
         if(playerCell.getMass() >= GameConstants.MIN_MASS_FOR_EJECT){
           lastSplit = System.currentTimeMillis();
           playerCell.setMass(playerCell.getMass()/2);
 
           PlayerCell newPlayerCell = new PlayerCell(Cell.idGenerator.next(),playerCell.getX(),playerCell.getY());
-          newPlayerCell.updateVelocity(x,y);
-          newPlayerCell.setMass(playerCell.getMass());
 
-          newPlayerCell.setVelocity(new DoubleVector(
-                  newPlayerCell.getVelocity().getX()*4,
-                          newPlayerCell.getVelocity().getX()*4
-          )
-          );
+          newPlayerCell.setMass(playerCell.getMass());
+          newPlayerCell.updateVelocity(x,y);
+
+
+          newPlayerCell.getVelocity().multi(4);
 
           newPlayerCell.setUngovernable(true);
           addCell(newPlayerCell);

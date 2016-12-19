@@ -7,8 +7,8 @@ public interface GameConstants {
   int MAX_PLAYERS_IN_SESSION = 10;
   int FIELD_WIDTH = 2500;
   int FIELD_HEIGHT = 2500;
-  int FOOD_MASS = 10;
-  int DEFAULT_PLAYER_CELL_MASS = 40;
+  int FOOD_MASS = 1;
+  int DEFAULT_PLAYER_CELL_MASS = 300;
   int VIRUS_MASS = 100;
   int FOOD_PER_SECOND_GENERATION = 1;
   int MAX_FOOD_ON_FIELD = 100;
@@ -21,4 +21,5 @@ public interface GameConstants {
   double SPLIT_VELOCITY = 1;
   double SPLIT_FOOD_LIFETIME = 300;
   double RELOAD_EJECT_TIME = 500;
+
 }

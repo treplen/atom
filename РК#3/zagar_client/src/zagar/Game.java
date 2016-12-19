@@ -62,6 +62,8 @@ public class Game {
   public static long fps = 60;
   @NotNull
   public static GameState state = GameState.NOT_AUTHORIZED;
+  public volatile static boolean splitting = false;
+  public volatile static boolean ejecting = false;
   private double zoomm = -1;
   private int sortTimer;
   @NotNull
@@ -241,7 +243,21 @@ public class Game {
         y += (float) ((GameFrame.mouseY - GameFrame.size.height / 2) / zoom);
         followX = x;
         followY = y;
-        (new PacketMove(x, y)).write();
+
+        try {
+          new PacketMove(x, y).write();
+          if(splitting) {
+            new PacketSplit(x,y).write();
+            splitting = false;
+          }
+          if(ejecting) {
+            new PacketEjectMass(x,y).write();
+            ejecting=false;
+          }
+
+        } catch (IOException e) {
+         log.error("client.Game exeption {}",e);
+        }
       }
     }
 
