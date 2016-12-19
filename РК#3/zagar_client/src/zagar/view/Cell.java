@@ -110,6 +110,7 @@ public class Cell {
         g.fillPolygon(hexagon);
       }
 
+      this.mass = Math.round((this.sizeRender * this.sizeRender) / 100);
       if (this.name.length() > 0 || (this.mass > 30 && !this.virus)) {
         Font font = Main.frame.canvas.fontCells;
         BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
