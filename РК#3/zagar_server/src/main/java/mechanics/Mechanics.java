@@ -112,18 +112,18 @@ public class Mechanics extends Service implements Tickable {
   public void EjectMass (@NotNull  Player player,@NotNull CommandEjectMass commandEjectMass)
   {
     player.eject(commandEjectMass.getDx(),commandEjectMass.getDy());
-    log.info("{} wants to eject mass  <{},{}> (in thread {})",player,commandEjectMass.getDx(),commandEjectMass.getDy(),Thread.currentThread());
+    log.debug("{} wants to eject mass  <{},{}> (in thread {})",player,commandEjectMass.getDx(),commandEjectMass.getDy(),Thread.currentThread());
   }
 
   public void Move (@NotNull Player player, @NotNull CommandMove commandMove)
   {
     player.move(commandMove.getDx(),commandMove.getDy());
-    log.info("{} wants to move <{},{}> (in thread {})",player,commandMove.getDx(),commandMove.getDy(),Thread.currentThread());
+    log.debug("{} wants to move <{},{}> (in thread {})",player,commandMove.getDx(),commandMove.getDy(),Thread.currentThread());
   }
 
   public void Split (@NotNull Player player, @NotNull CommandSplit commandSplit)
   {
     player.split(commandSplit.getDx(),commandSplit.getDy(),2);
-    log.info("{} wants to split <{},{}>(in thread {})",player,commandSplit.getDx(),commandSplit.getDy(),Thread.currentThread());
+    log.debug("{} wants to split <{},{}>(in thread {})",player,commandSplit.getDx(),commandSplit.getDy(),Thread.currentThread());
   }
 }
