@@ -59,8 +59,6 @@ public class Game {
   @NotNull
   public static HashMap<Integer, String> cellNames = new HashMap<>();
   public static long fps = 60;
-  public static boolean rapidEject = false;
-  public static boolean rapidSplit = false;
   @NotNull
   public static GameState state = GameState.NOT_AUTHORIZED;
   private double zoomm = -1;
@@ -242,16 +240,6 @@ public class Game {
         followX = x;
         followY = y;
         (new PacketMove(x, y)).write();
-
-        if (rapidEject) {
-          (new PacketEjectMass(x,y)).write();
-          rapidEject = false;
-        }
-
-        if (rapidSplit) {
-          (new PacketSplit(x,y)).write();
-          rapidSplit = false;
-        }
       }
     }
 
