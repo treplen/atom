@@ -87,7 +87,9 @@ public class Mechanics extends Service implements Tickable {
           for (PlayerCell playerCell:enemy.getCells())
             if(player.eat(playerCell))
               //foodArrayList.add(food);
+            {
               enemy.getCells().remove(playerCell);
+            }
 
       //try to eat Food
       for (Player player : gameSession.getPlayers())
@@ -106,6 +108,11 @@ public class Mechanics extends Service implements Tickable {
       //for(model.Food food:foodArrayList) {
         //gameSession.getField().getFoodSet().remove(food);
       //}
+
+      for (Player player : gameSession.getPlayers())
+        if (player.isRespawn())
+          gameSession.respawn(player);
+
     }
   }
 
@@ -125,5 +132,10 @@ public class Mechanics extends Service implements Tickable {
   {
     player.split(commandSplit.getDx(),commandSplit.getDy(),2);
     log.info("{} wants to split <{},{}>(in thread {})",player,commandSplit.getDx(),commandSplit.getDy(),Thread.currentThread());
+  }
+
+  public void Respawn (@NotNull Player player){
+    player.setRespawn(true);
+    log.info("{} wants to respawn (in thread {})",player.getName(),Thread.currentThread());
   }
 }

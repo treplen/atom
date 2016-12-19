@@ -34,6 +34,11 @@ public class GameSessionImpl implements GameSession {
     players.add(player);
     this.playerPlacer.place(player);
   }
+  @Override
+  public void respawn(@NotNull Player player){
+    player.startRespawn();
+    playerPlacer.place(player);
+  }
 
   @Override
   public void leave(@NotNull Player player) {

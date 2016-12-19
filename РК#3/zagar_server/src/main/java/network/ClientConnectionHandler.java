@@ -2,10 +2,7 @@ package network;
 
 import main.ApplicationContext;
 import model.Player;
-import network.handlers.PacketHandlerAuth;
-import network.handlers.PacketHandlerEjectMass;
-import network.handlers.PacketHandlerMove;
-import network.handlers.PacketHandlerSplit;
+import network.handlers.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.websocket.api.Session;
@@ -68,6 +65,9 @@ public class ClientConnectionHandler extends WebSocketAdapter {
           break;
         case CommandSplit.NAME:
           new PacketHandlerSplit(getSession(), msg);
+          break;
+        case CommandRespawn.NAME:
+          new PacketHandlerRespawn(getSession());
           break;
       }
     }catch(Exception ignored){}
