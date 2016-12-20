@@ -34,6 +34,7 @@ public class Player {
   private boolean joining;
   private double lastEject;
   private boolean respawn = false;
+  private double timeToJoin;
 
 
   public Player(int id, @NotNull String name) {
@@ -88,8 +89,7 @@ public class Player {
   public void move(double x, double y){
     checkSplit();
     DoubleVector centre = null;
-    if(joining)
-      centre = findCentre();
+
     double dTime =  System.currentTimeMillis() - lastUpdate;
 
     for (PlayerCell playerCell:cells) {
@@ -107,13 +107,6 @@ public class Player {
           }
         }
 
-        if(joining){
-          DoubleVector dCentre = new DoubleVector(centre);
-          dCentre.sub(new DoubleVector(playerCell.getX(),playerCell.getY()));
-          dCentre.multi(1 /GameConstants.JOINING_TIME);
-          playerCell.getVelocity().add(dCentre);
-        }
-
 
 
       if (new Double(playerCell.getVelocity().getX()).equals(Double.NaN) ||
@@ -125,7 +118,12 @@ public class Player {
       int newX = (int)(playerCell.getX() + dTime*playerCell.getVelocity().getX());
       int newY = (int)(playerCell.getY() + dTime*playerCell.getVelocity().getY());
 
-
+      if(joining){
+        centre = findCentre();
+        newX += (int) 0.9 * ((centre.getX() - playerCell.getX()) / timeToJoin * dTime);
+        newY += (int) 0.9 * ((centre.getY() - playerCell.getY()) / timeToJoin * dTime);
+        timeToJoin-=dTime;
+      }
 
       if (newX <= 0){
         if (playerCell.getUngovernable())
@@ -160,11 +158,14 @@ public class Player {
   }
 
   public boolean eat(Cell food){
+    if (cells.contains(food)){
+      return false;
+    }
     for(PlayerCell playerCell: cells) {
       double dx = playerCell.getX() - food.getX();
       double dy = playerCell.getY() - food.getY();
 
-      if ((Math.sqrt(dx*dx+dy*dy) < (playerCell.getMass() + food.getMass()))&&
+      if ((Math.sqrt(dx*dx+dy*dy) < (playerCell.getMass() - food.getMass()))&&
               eatComparator.compare(playerCell,food)==1
               ) {
         if(food.getClass() != Virus.class){
@@ -185,7 +186,8 @@ public class Player {
   }
 
   private void virusSplit(PlayerCell playerCell){
-
+    joining = false;
+    timeToJoin=-1;
     lastSplit = System.currentTimeMillis();
     int newMass = playerCell.getMass()/8;
 
@@ -246,6 +248,8 @@ public class Player {
   public void split(double x, double y){
     for (PlayerCell playerCell:cells) {
         if(playerCell.getMass() >= GameConstants.MIN_MASS_FOR_EJECT){
+          joining = false;
+          timeToJoin = -1;
           lastSplit = System.currentTimeMillis();
           playerCell.setMass(playerCell.getMass()/2);
 
@@ -272,6 +276,7 @@ public class Player {
       cells.clear();
       cells.add(mainCell);
       lastSplit = -1;
+      timeToJoin =-1;
       joining = false;
       log.info("Player {} just now is merged",this.getId());
     }
@@ -279,6 +284,10 @@ public class Player {
     if( lastSplit != -1 &&
             System.currentTimeMillis() - lastSplit > GameConstants.MAX_DISCONNECTING_TIME - GameConstants.JOINING_TIME)
       joining = true;
+
+    if(joining && timeToJoin ==-1){
+      timeToJoin = GameConstants.JOINING_TIME;
+    }
   }
 
   private DoubleVector findCentre(){
