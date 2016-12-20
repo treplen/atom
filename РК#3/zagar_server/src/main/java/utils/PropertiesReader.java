@@ -20,20 +20,25 @@ public class PropertiesReader {
 
     @NotNull
     private final static Logger log = LogManager.getLogger(PropertiesReader.class);
-    public PropertiesReader(String propertiesFile) {
-        InputStream in = null;
-        try {
-            in = new FileInputStream(propertiesFile);
-        } catch (FileNotFoundException e) {
-            log.error("Failed to open config file",e);
-            in=null;
-        }
+
+    private PropertiesReader(String propertiesFile) throws IOException {
+        InputStream in;
+        in = new FileInputStream(propertiesFile);
         properties = new Properties();
+        properties.load(in);
+        in.close();
+    }
+
+    public static PropertiesReader getInstance(String propertiesFile)
+    {
+        PropertiesReader propertiesReader;
         try {
-            properties.load(in);
+            propertiesReader = new PropertiesReader(propertiesFile);
         } catch (IOException e) {
-            log.error("Failed to read config file",e);
+            log.error("Failed to open config file",propertiesFile,e);
+            return null;
         }
+        return propertiesReader;
     }
 
     public int getIntProperty(String name)
